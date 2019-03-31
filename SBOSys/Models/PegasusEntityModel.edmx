@@ -1,0 +1,1174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PegasusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Areas">
+          <Key>
+            <PropertyRef Name="aID" />
+          </Key>
+          <Property Name="aID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaDetails" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Book_Discount">
+          <Key>
+            <PropertyRef Name="discno" />
+          </Key>
+          <Property Name="discno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trn_Id" Type="int" Nullable="false" />
+          <Property Name="disc_Id" Type="int" Nullable="false" />
+          <Property Name="userid" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Book_Menus">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trn_Id" Type="int" />
+          <Property Name="menuid" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="BookingAddons">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trn_Id" Type="int" />
+          <Property Name="Addondesc" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddonAmount" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="trn_Id" />
+          </Key>
+          <Property Name="trn_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transdate" Type="datetime" />
+          <Property Name="c_Id" Type="int" />
+          <Property Name="noofperson" Type="int" />
+          <Property Name="occasion" Type="nvarchar" MaxLength="50" />
+          <Property Name="venue" Type="nvarchar" MaxLength="50" />
+          <Property Name="apply_extendedAmount" Type="bit" />
+          <Property Name="typeofservice" Type="int" />
+          <Property Name="startdate" Type="datetime" />
+          <Property Name="enddate" Type="datetime" />
+          <Property Name="serve_stat" Type="bit" />
+          <Property Name="eventcolor" Type="nchar" MaxLength="10" />
+          <Property Name="p_id" Type="int" />
+          <Property Name="reference" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CourseCategory">
+          <Key>
+            <PropertyRef Name="CourserId" />
+          </Key>
+          <Property Name="CourserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Course" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+          <Property Name="Main_Bol" Type="bit" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="c_Id" />
+          </Key>
+          <Property Name="c_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="middle" Type="nchar" MaxLength="10" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" />
+          <Property Name="contact1" Type="nvarchar" MaxLength="30" />
+          <Property Name="contact2" Type="nvarchar" MaxLength="30" />
+          <Property Name="datereg" Type="datetime" />
+          <Property Name="company" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="deptId" />
+          </Key>
+          <Property Name="deptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deptName" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Discount">
+          <Key>
+            <PropertyRef Name="disc_Id" />
+          </Key>
+          <Property Name="disc_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="discCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="disctype" Type="nchar" MaxLength="10" />
+          <Property Name="discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="discStartdate" Type="datetime" />
+          <Property Name="discEnddate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="menuid" />
+          </Key>
+          <Property Name="menuid" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CourserId" Type="int" />
+          <Property Name="menu_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="deptId" Type="int" />
+          <Property Name="note" Type="nvarchar(max)" />
+          <Property Name="date_added" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PackageAreaCoverage">
+          <Key>
+            <PropertyRef Name="p_areaNo" />
+          </Key>
+          <Property Name="p_areaNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_id" Type="int" />
+          <Property Name="aID" Type="int" />
+          <Property Name="is_extended" Type="bit" />
+          <Property Name="ext_amount" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="PackageBody">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_id" Type="int" />
+          <Property Name="mainCourse" Type="int" />
+          <Property Name="sea_vegi" Type="int" />
+          <Property Name="noodlepasta" Type="int" />
+          <Property Name="salad" Type="int" />
+          <Property Name="dessert" Type="int" />
+          <Property Name="pineapple" Type="int" />
+          <Property Name="drinks" Type="int" />
+          <Property Name="rice" Type="int" />
+        </EntityType>
+        <EntityType Name="Packages">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_descripton" Type="nvarchar(max)" />
+          <Property Name="p_amountPax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="p_min" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Pegasus.dbo.PackagesRangeBelowMin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PackagesRangeBelowMin">
+          <Key>
+            <PropertyRef Name="no" />
+          </Key>
+          <Property Name="no" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pMin" Type="int" />
+          <Property Name="pMax" Type="int" />
+          <Property Name="Amt_added" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="payNo" />
+          </Key>
+          <Property Name="payNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trn_Id" Type="int" />
+          <Property Name="dateofPayment" Type="datetime" />
+          <Property Name="particular" Type="nvarchar" MaxLength="50" />
+          <Property Name="payType" Type="int" />
+          <Property Name="amtPay" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="pay_means" Type="nchar" MaxLength="10" />
+          <Property Name="checkNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="notes" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="resId" />
+          </Key>
+          <Property Name="resId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="c_Id" Type="int" Nullable="false" />
+          <Property Name="resDate" Type="datetime" Nullable="false" />
+          <Property Name="noofPax" Type="int" Nullable="false" />
+          <Property Name="occasion" Type="nvarchar" MaxLength="50" />
+          <Property Name="reserveStat" Type="bit" Nullable="false" />
+          <Property Name="eventVenue" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="serviceId" />
+          </Key>
+          <Property Name="serviceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="servicetypedetails" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_Book_Discount_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
+          <End Role="Book_Discount" Type="Self.Book_Discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Book_Discount">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Book_Discount_Discount">
+          <End Role="Discount" Type="Self.Discount" Multiplicity="1" />
+          <End Role="Book_Discount" Type="Self.Book_Discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discount">
+              <PropertyRef Name="disc_Id" />
+            </Principal>
+            <Dependent Role="Book_Discount">
+              <PropertyRef Name="disc_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Book_Menus_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Book_Menus" Type="Self.Book_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Book_Menus">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Book_Menus_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Book_Menus" Type="Self.Book_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="menuid" />
+            </Principal>
+            <Dependent Role="Book_Menus">
+              <PropertyRef Name="menuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingAddons_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+          <End Role="BookingAddons" Type="Self.BookingAddons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="BookingAddons">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="c_Id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="c_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Packages">
+          <End Role="Packages" Type="Self.Packages" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_ServiceType">
+          <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceType">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="typeofservice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_CourseCategory">
+          <End Role="CourseCategory" Type="Self.CourseCategory" Multiplicity="0..1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseCategory">
+              <PropertyRef Name="CourserId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="CourserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="deptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageAreaCoverage_Areas">
+          <End Role="Areas" Type="Self.Areas" Multiplicity="0..1" />
+          <End Role="PackageAreaCoverage" Type="Self.PackageAreaCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Areas">
+              <PropertyRef Name="aID" />
+            </Principal>
+            <Dependent Role="PackageAreaCoverage">
+              <PropertyRef Name="aID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageAreaCoverage_Packages">
+          <End Role="Packages" Type="Self.Packages" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PackageAreaCoverage" Type="Self.PackageAreaCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="PackageAreaCoverage">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageBody_Packages">
+          <End Role="Packages" Type="Self.Packages" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PackageBody" Type="Self.PackageBody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="PackageBody">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="c_Id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="c_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PegasusModelStoreContainer">
+          <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book_Discount" EntityType="Self.Book_Discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book_Menus" EntityType="Self.Book_Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingAddons" EntityType="Self.BookingAddons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseCategory" EntityType="Self.CourseCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Discount" EntityType="Self.Discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageAreaCoverage" EntityType="Self.PackageAreaCoverage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageBody" EntityType="Self.PackageBody" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackagesRangeBelowMin" EntityType="Self.PackagesRangeBelowMin" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PackagesRangeBelowMin].[no] AS [no], 
+    [PackagesRangeBelowMin].[pMin] AS [pMin], 
+    [PackagesRangeBelowMin].[pMax] AS [pMax], 
+    [PackagesRangeBelowMin].[Amt_added] AS [Amt_added]
+    FROM [dbo].[PackagesRangeBelowMin] AS [PackagesRangeBelowMin]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Book_Discount_Bookings" Association="Self.FK_Book_Discount_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Book_Discount" EntitySet="Book_Discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Book_Discount_Discount" Association="Self.FK_Book_Discount_Discount">
+            <End Role="Discount" EntitySet="Discount" />
+            <End Role="Book_Discount" EntitySet="Book_Discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Book_Menus_Bookings" Association="Self.FK_Book_Menus_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Book_Menus" EntitySet="Book_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Book_Menus_Menu" Association="Self.FK_Book_Menus_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Book_Menus" EntitySet="Book_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingAddons_Bookings" Association="Self.FK_BookingAddons_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="BookingAddons" EntitySet="BookingAddons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Customer" Association="Self.FK_Bookings_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Packages" Association="Self.FK_Bookings_Packages">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_ServiceType" Association="Self.FK_Bookings_ServiceType">
+            <End Role="ServiceType" EntitySet="ServiceType" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_CourseCategory" Association="Self.FK_Menu_CourseCategory">
+            <End Role="CourseCategory" EntitySet="CourseCategory" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Department" Association="Self.FK_Menu_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageAreaCoverage_Areas" Association="Self.FK_PackageAreaCoverage_Areas">
+            <End Role="Areas" EntitySet="Areas" />
+            <End Role="PackageAreaCoverage" EntitySet="PackageAreaCoverage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageAreaCoverage_Packages" Association="Self.FK_PackageAreaCoverage_Packages">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="PackageAreaCoverage" EntitySet="PackageAreaCoverage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageBody_Packages" Association="Self.FK_PackageBody_Packages">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="PackageBody" EntitySet="PackageBody" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Bookings" Association="Self.FK_Payments_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Customer" Association="Self.FK_Reservations_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PegasusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CourseCategory">
+          <Key>
+            <PropertyRef Name="CourserId" />
+          </Key>
+          <Property Name="CourserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Course" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Main_Bol" Type="Boolean" />
+          <NavigationProperty Name="Menus" Relationship="PegasusModel.FK_Menu_CourseCategory" FromRole="CourseCategory" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="deptId" />
+          </Key>
+          <Property Name="deptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deptName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menus" Relationship="PegasusModel.FK_Menu_Department" FromRole="Department" ToRole="Menu" />
+        </EntityType>
+        <EntityContainer Name="PegasusEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CourseCategories" EntityType="Self.CourseCategory" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Menus" EntityType="PegasusModel.Menu" />
+          <EntitySet Name="Packages" EntityType="PegasusModel.Package" />
+          <EntitySet Name="PackageBodies" EntityType="PegasusModel.PackageBody" />
+          <EntitySet Name="PackagesRangeBelowMins" EntityType="PegasusModel.PackagesRangeBelowMin" />
+          <AssociationSet Name="FK_Menu_CourseCategory" Association="PegasusModel.FK_Menu_CourseCategory">
+            <End Role="CourseCategory" EntitySet="CourseCategories" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Department" Association="PegasusModel.FK_Menu_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageBody_Packages" Association="PegasusModel.FK_PackageBody_Packages">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageBody" EntitySet="PackageBodies" />
+          </AssociationSet>
+          <EntitySet Name="ServiceTypes" EntityType="PegasusModel.ServiceType" />
+          <EntitySet Name="Areas" EntityType="PegasusModel.Area" />
+          <EntitySet Name="PackageAreaCoverages" EntityType="PegasusModel.PackageAreaCoverage" />
+          <AssociationSet Name="FK_PackageAreaCoverage_Areas" Association="PegasusModel.FK_PackageAreaCoverage_Areas">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="PackageAreaCoverage" EntitySet="PackageAreaCoverages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageAreaCoverage_Packages" Association="PegasusModel.FK_PackageAreaCoverage_Packages">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageAreaCoverage" EntitySet="PackageAreaCoverages" />
+          </AssociationSet>
+          <EntitySet Name="Book_Menus" EntityType="PegasusModel.Book_Menus" />
+          <AssociationSet Name="FK_Book_Menus_Menu" Association="PegasusModel.FK_Book_Menus_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="Book_Menus" EntitySet="Book_Menus" />
+          </AssociationSet>
+          <EntitySet Name="BookingAddons" EntityType="PegasusModel.BookingAddon" />
+          <EntitySet Name="Customers" EntityType="PegasusModel.Customer" />
+          <EntitySet Name="Payments" EntityType="PegasusModel.Payment" />
+          <EntitySet Name="Bookings" EntityType="PegasusModel.Booking" />
+          <AssociationSet Name="FK_Book_Menus_Bookings" Association="PegasusModel.FK_Book_Menus_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Book_Menus" EntitySet="Book_Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingAddons_Bookings" Association="PegasusModel.FK_BookingAddons_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="BookingAddon" EntitySet="BookingAddons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Customer" Association="PegasusModel.FK_Bookings_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Packages" Association="PegasusModel.FK_Bookings_Packages">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_ServiceType" Association="PegasusModel.FK_Bookings_ServiceType">
+            <End Role="ServiceType" EntitySet="ServiceTypes" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Bookings" Association="PegasusModel.FK_Payments_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <EntitySet Name="Discounts" EntityType="PegasusModel.Discount" />
+          <EntitySet Name="Book_Discount" EntityType="PegasusModel.Book_Discount" />
+          <AssociationSet Name="FK_Book_Discount_Bookings" Association="PegasusModel.FK_Book_Discount_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Book_Discount" EntitySet="Book_Discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Book_Discount_Discount" Association="PegasusModel.FK_Book_Discount_Discount">
+            <End Role="Discount" EntitySet="Discounts" />
+            <End Role="Book_Discount" EntitySet="Book_Discount" />
+          </AssociationSet>
+          <EntitySet Name="Reservations" EntityType="PegasusModel.Reservation" />
+          <AssociationSet Name="FK_Reservations_Customer" Association="PegasusModel.FK_Reservations_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="menuid" />
+          </Key>
+          <Property Name="menuid" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CourserId" Type="Int32" />
+          <Property Name="menu_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="deptId" Type="Int32" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_added" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CourseCategory" Relationship="PegasusModel.FK_Menu_CourseCategory" FromRole="Menu" ToRole="CourseCategory" />
+          <NavigationProperty Name="Department" Relationship="PegasusModel.FK_Menu_Department" FromRole="Menu" ToRole="Department" />
+          <NavigationProperty Name="Book_Menus" Relationship="PegasusModel.FK_Book_Menus_Menu" FromRole="Menu" ToRole="Book_Menus" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_descripton" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="p_amountPax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="p_min" Type="Int32" />
+          <NavigationProperty Name="PackageBodies" Relationship="PegasusModel.FK_PackageBody_Packages" FromRole="Package" ToRole="PackageBody" />
+          <NavigationProperty Name="PackageAreaCoverages" Relationship="PegasusModel.FK_PackageAreaCoverage_Packages" FromRole="Package" ToRole="PackageAreaCoverage" />
+          <NavigationProperty Name="Bookings" Relationship="PegasusModel.FK_Bookings_Packages" FromRole="Package" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="PackageBody">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_id" Type="Int32" />
+          <Property Name="mainCourse" Type="Int32" />
+          <Property Name="sea_vegi" Type="Int32" />
+          <Property Name="noodlepasta" Type="Int32" />
+          <Property Name="salad" Type="Int32" />
+          <Property Name="dessert" Type="Int32" />
+          <Property Name="pineapple" Type="Int32" />
+          <Property Name="drinks" Type="Int32" />
+          <Property Name="rice" Type="Int32" />
+          <NavigationProperty Name="Package" Relationship="PegasusModel.FK_PackageBody_Packages" FromRole="PackageBody" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="PackagesRangeBelowMin">
+          <Key>
+            <PropertyRef Name="no" />
+          </Key>
+          <Property Name="no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pMin" Type="Int32" />
+          <Property Name="pMax" Type="Int32" />
+          <Property Name="Amt_added" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Menu_CourseCategory">
+          <End Type="PegasusModel.CourseCategory" Role="CourseCategory" Multiplicity="0..1" />
+          <End Type="PegasusModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseCategory">
+              <PropertyRef Name="CourserId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="CourserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Department">
+          <End Type="PegasusModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="PegasusModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptId" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="deptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageBody_Packages">
+          <End Type="PegasusModel.Package" Role="Package" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PegasusModel.PackageBody" Role="PackageBody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="PackageBody">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="serviceId" />
+          </Key>
+          <Property Name="serviceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="servicetypedetails" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="PegasusModel.FK_Bookings_ServiceType" FromRole="ServiceType" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="aID" />
+          </Key>
+          <Property Name="aID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaDetails" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PackageAreaCoverages" Relationship="PegasusModel.FK_PackageAreaCoverage_Areas" FromRole="Area" ToRole="PackageAreaCoverage" />
+        </EntityType>
+        <EntityType Name="PackageAreaCoverage">
+          <Key>
+            <PropertyRef Name="p_areaNo" />
+          </Key>
+          <Property Name="p_areaNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_id" Type="Int32" />
+          <Property Name="aID" Type="Int32" />
+          <Property Name="is_extended" Type="Boolean" />
+          <Property Name="ext_amount" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Area" Relationship="PegasusModel.FK_PackageAreaCoverage_Areas" FromRole="PackageAreaCoverage" ToRole="Area" />
+          <NavigationProperty Name="Package" Relationship="PegasusModel.FK_PackageAreaCoverage_Packages" FromRole="PackageAreaCoverage" ToRole="Package" />
+        </EntityType>
+        <Association Name="FK_PackageAreaCoverage_Areas">
+          <End Type="PegasusModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="PegasusModel.PackageAreaCoverage" Role="PackageAreaCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="aID" />
+            </Principal>
+            <Dependent Role="PackageAreaCoverage">
+              <PropertyRef Name="aID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageAreaCoverage_Packages">
+          <End Type="PegasusModel.Package" Role="Package" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PegasusModel.PackageAreaCoverage" Role="PackageAreaCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="PackageAreaCoverage">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Book_Menus">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trn_Id" Type="Int32" />
+          <Property Name="menuid" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menu" Relationship="PegasusModel.FK_Book_Menus_Menu" FromRole="Book_Menus" ToRole="Menu" />
+          <NavigationProperty Name="Booking" Relationship="PegasusModel.FK_Book_Menus_Bookings" FromRole="Book_Menus" ToRole="Booking" />
+        </EntityType>
+        <Association Name="FK_Book_Menus_Menu">
+          <End Type="PegasusModel.Menu" Role="Menu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PegasusModel.Book_Menus" Role="Book_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="menuid" />
+            </Principal>
+            <Dependent Role="Book_Menus">
+              <PropertyRef Name="menuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BookingAddon">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trn_Id" Type="Int32" />
+          <Property Name="Addondesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddonAmount" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Booking" Relationship="PegasusModel.FK_BookingAddons_Bookings" FromRole="BookingAddon" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="c_Id" />
+          </Key>
+          <Property Name="c_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="middle" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="contact1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="contact2" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="datereg" Type="DateTime" Precision="3" />
+          <Property Name="company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="PegasusModel.FK_Bookings_Customer" FromRole="Customer" ToRole="Booking" />
+          <NavigationProperty Name="Reservations" Relationship="PegasusModel.FK_Reservations_Customer" FromRole="Customer" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="payNo" />
+          </Key>
+          <Property Name="payNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trn_Id" Type="Int32" />
+          <Property Name="dateofPayment" Type="DateTime" Precision="3" />
+          <Property Name="particular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="payType" Type="Int32" />
+          <Property Name="amtPay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pay_means" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="checkNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Booking" Relationship="PegasusModel.FK_Payments_Bookings" FromRole="Payment" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="trn_Id" />
+          </Key>
+          <Property Name="trn_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transdate" Type="DateTime" Precision="3" />
+          <Property Name="c_Id" Type="Int32" />
+          <Property Name="noofperson" Type="Int32" />
+          <Property Name="occasion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="apply_extendedAmount" Type="Boolean" />
+          <Property Name="typeofservice" Type="Int32" />
+          <Property Name="startdate" Type="DateTime" Precision="3" />
+          <Property Name="enddate" Type="DateTime" Precision="3" />
+          <Property Name="serve_stat" Type="Boolean" />
+          <Property Name="eventcolor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="p_id" Type="Int32" />
+          <Property Name="reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Book_Menus" Relationship="PegasusModel.FK_Book_Menus_Bookings" FromRole="Booking" ToRole="Book_Menus" />
+          <NavigationProperty Name="BookingAddons" Relationship="PegasusModel.FK_BookingAddons_Bookings" FromRole="Booking" ToRole="BookingAddon" />
+          <NavigationProperty Name="Customer" Relationship="PegasusModel.FK_Bookings_Customer" FromRole="Booking" ToRole="Customer" />
+          <NavigationProperty Name="Package" Relationship="PegasusModel.FK_Bookings_Packages" FromRole="Booking" ToRole="Package" />
+          <NavigationProperty Name="ServiceType" Relationship="PegasusModel.FK_Bookings_ServiceType" FromRole="Booking" ToRole="ServiceType" />
+          <NavigationProperty Name="Payments" Relationship="PegasusModel.FK_Payments_Bookings" FromRole="Booking" ToRole="Payment" />
+          <NavigationProperty Name="Book_Discount" Relationship="PegasusModel.FK_Book_Discount_Bookings" FromRole="Booking" ToRole="Book_Discount" />
+        </EntityType>
+        <Association Name="FK_Book_Menus_Bookings">
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PegasusModel.Book_Menus" Role="Book_Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Book_Menus">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingAddons_Bookings">
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="0..1" />
+          <End Type="PegasusModel.BookingAddon" Role="BookingAddon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="BookingAddon">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Customer">
+          <End Type="PegasusModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="c_Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="c_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Packages">
+          <End Type="PegasusModel.Package" Role="Package" Multiplicity="0..1" />
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_ServiceType">
+          <End Type="PegasusModel.ServiceType" Role="ServiceType" Multiplicity="0..1" />
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceType">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="typeofservice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Bookings">
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="0..1" />
+          <End Type="PegasusModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Discount">
+          <Key>
+            <PropertyRef Name="disc_Id" />
+          </Key>
+          <Property Name="disc_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="discCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="disctype" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="discount1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="discStartdate" Type="DateTime" Precision="3" />
+          <Property Name="discEnddate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Book_Discount" Relationship="PegasusModel.FK_Book_Discount_Discount" FromRole="Discount" ToRole="Book_Discount" />
+        </EntityType>
+        <EntityType Name="Book_Discount">
+          <Key>
+            <PropertyRef Name="discno" />
+          </Key>
+          <Property Name="discno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trn_Id" Type="Int32" Nullable="false" />
+          <Property Name="disc_Id" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Booking" Relationship="PegasusModel.FK_Book_Discount_Bookings" FromRole="Book_Discount" ToRole="Booking" />
+          <NavigationProperty Name="Discount" Relationship="PegasusModel.FK_Book_Discount_Discount" FromRole="Book_Discount" ToRole="Discount" />
+        </EntityType>
+        <Association Name="FK_Book_Discount_Bookings">
+          <End Type="PegasusModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="PegasusModel.Book_Discount" Role="Book_Discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Book_Discount">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Book_Discount_Discount">
+          <End Type="PegasusModel.Discount" Role="Discount" Multiplicity="1" />
+          <End Type="PegasusModel.Book_Discount" Role="Book_Discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discount">
+              <PropertyRef Name="disc_Id" />
+            </Principal>
+            <Dependent Role="Book_Discount">
+              <PropertyRef Name="disc_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="resId" />
+          </Key>
+          <Property Name="resId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="c_Id" Type="Int32" Nullable="false" />
+          <Property Name="resDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="noofPax" Type="Int32" Nullable="false" />
+          <Property Name="occasion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="reserveStat" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="PegasusModel.FK_Reservations_Customer" FromRole="Reservation" ToRole="Customer" />
+          <Property Name="eventVenue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Reservations_Customer">
+          <End Type="PegasusModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="PegasusModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="c_Id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="c_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PegasusModelStoreContainer" CdmEntityContainer="PegasusEntities">
+          <EntitySetMapping Name="CourseCategories">
+            <EntityTypeMapping TypeName="PegasusModel.CourseCategory">
+              <MappingFragment StoreEntitySet="CourseCategory">
+                <ScalarProperty Name="CourserId" ColumnName="CourserId" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Main_Bol" ColumnName="Main_Bol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="PegasusModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="deptId" ColumnName="deptId" />
+                <ScalarProperty Name="deptName" ColumnName="deptName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="PegasusModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="date_added" ColumnName="date_added" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="deptId" ColumnName="deptId" />
+                <ScalarProperty Name="menu_name" ColumnName="menu_name" />
+                <ScalarProperty Name="CourserId" ColumnName="CourserId" />
+                <ScalarProperty Name="menuid" ColumnName="menuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="PegasusModel.Package">
+              <MappingFragment StoreEntitySet="Packages">
+                <ScalarProperty Name="p_min" ColumnName="p_min" />
+                <ScalarProperty Name="p_amountPax" ColumnName="p_amountPax" />
+                <ScalarProperty Name="p_descripton" ColumnName="p_descripton" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageBodies">
+            <EntityTypeMapping TypeName="PegasusModel.PackageBody">
+              <MappingFragment StoreEntitySet="PackageBody">
+                <ScalarProperty Name="rice" ColumnName="rice" />
+                <ScalarProperty Name="drinks" ColumnName="drinks" />
+                <ScalarProperty Name="pineapple" ColumnName="pineapple" />
+                <ScalarProperty Name="dessert" ColumnName="dessert" />
+                <ScalarProperty Name="salad" ColumnName="salad" />
+                <ScalarProperty Name="noodlepasta" ColumnName="noodlepasta" />
+                <ScalarProperty Name="sea_vegi" ColumnName="sea_vegi" />
+                <ScalarProperty Name="mainCourse" ColumnName="mainCourse" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackagesRangeBelowMins">
+            <EntityTypeMapping TypeName="PegasusModel.PackagesRangeBelowMin">
+              <MappingFragment StoreEntitySet="PackagesRangeBelowMin">
+                <ScalarProperty Name="Amt_added" ColumnName="Amt_added" />
+                <ScalarProperty Name="pMax" ColumnName="pMax" />
+                <ScalarProperty Name="pMin" ColumnName="pMin" />
+                <ScalarProperty Name="no" ColumnName="no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="PegasusModel.ServiceType">
+              <MappingFragment StoreEntitySet="ServiceType">
+                <ScalarProperty Name="servicetypedetails" ColumnName="servicetypedetails" />
+                <ScalarProperty Name="serviceId" ColumnName="serviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Areas">
+            <EntityTypeMapping TypeName="PegasusModel.Area">
+              <MappingFragment StoreEntitySet="Areas">
+                <ScalarProperty Name="AreaDetails" ColumnName="AreaDetails" />
+                <ScalarProperty Name="aID" ColumnName="aID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageAreaCoverages">
+            <EntityTypeMapping TypeName="PegasusModel.PackageAreaCoverage">
+              <MappingFragment StoreEntitySet="PackageAreaCoverage">
+                <ScalarProperty Name="ext_amount" ColumnName="ext_amount" />
+                <ScalarProperty Name="is_extended" ColumnName="is_extended" />
+                <ScalarProperty Name="aID" ColumnName="aID" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="p_areaNo" ColumnName="p_areaNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Book_Menus">
+            <EntityTypeMapping TypeName="PegasusModel.Book_Menus">
+              <MappingFragment StoreEntitySet="Book_Menus">
+                <ScalarProperty Name="menuid" ColumnName="menuid" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingAddons">
+            <EntityTypeMapping TypeName="PegasusModel.BookingAddon">
+              <MappingFragment StoreEntitySet="BookingAddons">
+                <ScalarProperty Name="AddonAmount" ColumnName="AddonAmount" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Addondesc" ColumnName="Addondesc" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="PegasusModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="company" ColumnName="company" />
+                <ScalarProperty Name="datereg" ColumnName="datereg" />
+                <ScalarProperty Name="contact2" ColumnName="contact2" />
+                <ScalarProperty Name="contact1" ColumnName="contact1" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="middle" ColumnName="middle" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="c_Id" ColumnName="c_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="PegasusModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="checkNo" ColumnName="checkNo" />
+                <ScalarProperty Name="pay_means" ColumnName="pay_means" />
+                <ScalarProperty Name="amtPay" ColumnName="amtPay" />
+                <ScalarProperty Name="payType" ColumnName="payType" />
+                <ScalarProperty Name="particular" ColumnName="particular" />
+                <ScalarProperty Name="dateofPayment" ColumnName="dateofPayment" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="payNo" ColumnName="payNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="PegasusModel.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="eventcolor" ColumnName="eventcolor" />
+                <ScalarProperty Name="serve_stat" ColumnName="serve_stat" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="typeofservice" ColumnName="typeofservice" />
+                <ScalarProperty Name="apply_extendedAmount" ColumnName="apply_extendedAmount" />
+                <ScalarProperty Name="venue" ColumnName="venue" />
+                <ScalarProperty Name="occasion" ColumnName="occasion" />
+                <ScalarProperty Name="noofperson" ColumnName="noofperson" />
+                <ScalarProperty Name="c_Id" ColumnName="c_Id" />
+                <ScalarProperty Name="transdate" ColumnName="transdate" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Discounts">
+            <EntityTypeMapping TypeName="PegasusModel.Discount">
+              <MappingFragment StoreEntitySet="Discount">
+                <ScalarProperty Name="discEnddate" ColumnName="discEnddate" />
+                <ScalarProperty Name="discStartdate" ColumnName="discStartdate" />
+                <ScalarProperty Name="discount1" ColumnName="discount" />
+                <ScalarProperty Name="disctype" ColumnName="disctype" />
+                <ScalarProperty Name="discCode" ColumnName="discCode" />
+                <ScalarProperty Name="disc_Id" ColumnName="disc_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Book_Discount">
+            <EntityTypeMapping TypeName="PegasusModel.Book_Discount">
+              <MappingFragment StoreEntitySet="Book_Discount">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="disc_Id" ColumnName="disc_Id" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="discno" ColumnName="discno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="PegasusModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="eventVenue" ColumnName="eventVenue" />
+                <ScalarProperty Name="reserveStat" ColumnName="reserveStat" />
+                <ScalarProperty Name="occasion" ColumnName="occasion" />
+                <ScalarProperty Name="noofPax" ColumnName="noofPax" />
+                <ScalarProperty Name="resDate" ColumnName="resDate" />
+                <ScalarProperty Name="c_Id" ColumnName="c_Id" />
+                <ScalarProperty Name="resId" ColumnName="resId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

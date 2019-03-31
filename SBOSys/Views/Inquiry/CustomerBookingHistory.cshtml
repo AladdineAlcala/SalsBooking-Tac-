@@ -1,0 +1,110 @@
+﻿<div id="spinn-loader">
+        Loading data Pls. wait....
+ </div>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-blue">Customer Booking History</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" id="bookcustomer" class="form-control" placeholder="Search Customer" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat" id="customerbookinginquiry" style="margin-bottom: 7px;">
+                                        Search
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="hiddencusId" />
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box-body table-responsive no-padding" id="filteredRecurd">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var inquiryUrl = {
+            inquiryUrl_customerbookings: "@Url.Action("GetCustomerBookings", "Inquiry")",
+            inquiryUrl_loadbookingsbycustomer: "@Url.Action("LoadBookingsByCustomer", "Inquiry")"
+
+        }
+
+
+
+        $(function () {
+
+            //var vm = {};
+
+            var customers = new Bloodhound({
+
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('fullname'),
+
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+                remote: {
+
+                  //url: '/Customers/GetCustomers?query=%QUERY',
+                   url: '/Sals/Customers/GetCustomers?query=%QUERY',
+                    wildcard: '%QUERY'
+
+                }
+
+            });
+
+            //customers.initialize();
+
+            $('#bookcustomer').typeahead({
+
+                highlight: true
+
+            },
+                {
+                    name: 'customers',
+
+                    display: 'fullname',
+
+                    source: customers
+
+                }).on("typeahead:selected typeahead:autocompleted", function (e, customer) {
+                    e.preventDefault();
+
+                    $('#hiddencusId').val(customer.customerId);
+
+                    //vm.customerId = customer.customerId;
+                    //console.log(vm.customerId);
+                });
+
+        });
+
+
+
+
+    </script>
+
+    @Scripts.Render("~/Scripts/js_inquiries.js")
+
+}

@@ -1,0 +1,84 @@
+﻿@using SBOSys.ViewModel
+@model CourseMenuViewModel
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Default box -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Menus DataTable</h3>
+                    @*<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>*@
+                </div>
+                <div class="box-body">
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-lg-3">
+                            <input type="text" id="searchmenu" class="form-control input-sm" placeholder="Search Menu" />
+                        </div>
+                        <div class="col-lg-5 col-lg-offset-4">
+                            <div class="form-inline">
+                                <div class="pull-right">
+                                    <label for="filtercoursetype">Filter Course</label>
+                                    @Html.DropDownListFor(x => x.CourserId, Model.coursecategory_list, "------- Select Course -------", new { @class = "form-control input-sm", @id = "courseList" })
+                                    <button type="submit" class="btn btn-default btn-sm" id="btnSearch">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @*<div class="row top-buffer"></div>*@
+
+                    <table id="table_menu" class="table table-bordered table-hover" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>No.</th>
+                            <th>Menu Name</th>
+                            <th>Course Category</th>
+                            <th>Dept. In-charge</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+          
+                </div>
+                <!-- /.box-footer-->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+
+@section scripts
+{
+    
+    <script type="text/javascript">
+
+
+        var menuUrl = {
+            menuurl_Index:"@Url.Action("Index", "Menus")",
+            menuurl_loadMenu: "@Url.Action("loadDatatoTable", "Menus")",
+            menuurl_add: "@Url.Action("CreateMenus", "Menus")",
+            menuurl_remove: "@Url.Action("RemoveMenu", "Menus")",
+            menuurl_modify:"@Url.Action("ModifyMenu","Menus",new {menuId="menucode"})"
+        }
+    </script>
+
+    @Scripts.Render("~/Scripts/js_menu.js")
+}

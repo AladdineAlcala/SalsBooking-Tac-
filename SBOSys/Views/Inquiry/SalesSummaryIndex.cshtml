@@ -1,0 +1,73 @@
+﻿@section Styles
+{
+    @Styles.Render("~/Content/bower_components/datatablesPrint/css/datatables_print.min.css")
+}
+
+
+<section class="content">
+
+    <div class="pad margin no-print" style="padding-left: 0px !important; padding-right: 0px !important; margin-bottom: 0px; padding-bottom: 0px;">
+        <div class="callout callout-info" style="margin-bottom: 15px;">
+            <h4><i class="fa fa-info" style="padding: 0px; margin: 0px;"></i> Print Sales Summary </h4>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9 col-md-offset-3">
+            <div class="form-inline">
+                <label>Filter Date </label>
+                <div class="form-group">
+
+                    <input type="text" id="start_date" class="form-control" placeholder="Date Start">
+                </div>
+                <div class="form-group">
+
+                    <input type="text" id="end_date" class="form-control" placeholder="Date End">
+                </div>
+                <button type="button" class="btn btn-default" id="btnFilterschedule"><i class="fa fa-search" aria-hidden="true"></i> Filter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12">
+
+            <div class="box-body table-responsive no-padding" id="filteredRecord">
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<div id="spinn-loader">
+    Loading data Pls. wait....
+</div>
+
+
+@section scripts
+{
+
+    @Scripts.Render("~/bundles/PrintDatatable")
+
+    <script type="text/javascript">
+
+        var salessummarycheduleUrl = {
+            url_load_loadingSscheduleDataTable: "@Url.Action("GetSalesSummary", "Inquiry")",
+            url_loadsalessummarylist: "@Url.Action("GetSalesSummaryData", "Inquiry")"
+
+
+        }
+
+
+
+    </script>
+
+
+    @Scripts.Render("~/Scripts/js_salesinquiry.js")
+}
+

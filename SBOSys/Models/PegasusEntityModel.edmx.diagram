@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2d8647d59fc040c0b7f5051555789698" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="PegasusModel.CourseCategory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusModel.Department" Width="1.5" PointX="3.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusModel.Menu" Width="1.5" PointX="6.625" PointY="0.75" />
+        <EntityTypeShape EntityType="PegasusModel.Package" Width="1.5" PointX="2.875" PointY="3" />
+        <EntityTypeShape EntityType="PegasusModel.PackageBody" Width="1.5" PointX="0.5" PointY="3.875" />
+        <EntityTypeShape EntityType="PegasusModel.PackagesRangeBelowMin" Width="1.5" PointX="0.5" PointY="7.875" />
+        <AssociationConnector Association="PegasusModel.FK_Menu_CourseCategory" />
+        <AssociationConnector Association="PegasusModel.FK_Menu_Department" />
+        <AssociationConnector Association="PegasusModel.FK_PackageBody_Packages" />
+        <EntityTypeShape EntityType="PegasusModel.ServiceType" Width="1.5" PointX="4" PointY="5.875" />
+        <EntityTypeShape EntityType="PegasusModel.Area" Width="1.5" PointX="10.25" PointY="5.125" />
+        <EntityTypeShape EntityType="PegasusModel.PackageAreaCoverage" Width="1.5" PointX="11.625" PointY="0.625" />
+        <AssociationConnector Association="PegasusModel.FK_PackageAreaCoverage_Areas" />
+        <AssociationConnector Association="PegasusModel.FK_PackageAreaCoverage_Packages" />
+        <EntityTypeShape EntityType="PegasusModel.Book_Menus" Width="1.5" PointX="8.875" PointY="1.625" />
+        <AssociationConnector Association="PegasusModel.FK_Book_Menus_Menu" />
+        <EntityTypeShape EntityType="PegasusModel.BookingAddon" Width="1.5" PointX="2.75" PointY="7.875" />
+        <EntityTypeShape EntityType="PegasusModel.Customer" Width="1.5" PointX="12.375" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusModel.Payment" Width="1.5" PointX="11.875" PointY="8" />
+        <EntityTypeShape EntityType="PegasusModel.Booking" Width="1.5" PointX="6.25" PointY="4" />
+        <AssociationConnector Association="PegasusModel.FK_Book_Menus_Bookings" />
+        <AssociationConnector Association="PegasusModel.FK_BookingAddons_Bookings" />
+        <AssociationConnector Association="PegasusModel.FK_Bookings_Customer" />
+        <AssociationConnector Association="PegasusModel.FK_Bookings_Packages" />
+        <AssociationConnector Association="PegasusModel.FK_Bookings_ServiceType" />
+        <AssociationConnector Association="PegasusModel.FK_Payments_Bookings" />
+        <EntityTypeShape EntityType="PegasusModel.Discount" Width="1.5" PointX="8.25" PointY="4.125" />
+        <EntityTypeShape EntityType="PegasusModel.Book_Discount" Width="1.5" PointX="14.5" PointY="8.5" />
+        <AssociationConnector Association="PegasusModel.FK_Book_Discount_Bookings" />
+        <AssociationConnector Association="PegasusModel.FK_Book_Discount_Discount" />
+        <EntityTypeShape EntityType="PegasusModel.Reservation" Width="1.5" PointX="17.125" PointY="3.375" />
+        <AssociationConnector Association="PegasusModel.FK_Reservations_Customer" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

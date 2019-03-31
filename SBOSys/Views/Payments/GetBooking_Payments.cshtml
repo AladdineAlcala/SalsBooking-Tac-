@@ -1,0 +1,109 @@
+﻿@using SBOSys.ViewModel
+@model BookingPaymentsViewModel
+
+<section class="content-header">
+    <h1>
+        Transaction #:
+        <small>@Model.transId</small>
+        <input type="hidden" value="@Model.transId" id="tranId" />
+    </h1>
+</section>
+
+<section class="invoice">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h2 class="page-header">
+                <i class="fa fa-address-card"></i> @Model.Bookings.fullname
+                <small class="pull-right"><b>Trn Date:</b> @Model.Bookings.transdate.Value.ToString("MMM d, yyyy h:mm tt")</small>
+
+            </h2>
+
+        </div>
+    </div>
+    <div class="row" style="margin-top: 0px; padding-top: 0px;">
+        
+        <div class="col-sm-12" style="margin-bottom: 5px;">
+            <div class="col-sm-6">
+
+                <div class="control-label text-bold col-sm-4"> Event Details</div>
+                <br />
+                <div class="control-label col-sm-4"> OCCASION:</div> @Html.DisplayFor(m => m.Bookings.occasion)
+                <br />
+                <div class="control-label col-sm-4"> VENUE:</div> @Html.DisplayFor(m => m.Bookings.venue)
+                <br />
+                <div class="control-label col-sm-4"> DATE:</div>@Model.Bookings.startdate.Value.ToString("MMM d, yyyy h:mm tt")
+                <br />
+                <div class="control-label col-sm-4"> PACKAGE:</div>@Html.DisplayFor(m => m.Bookings.packagename)
+                <br />
+               
+
+            </div>
+
+            <div class="col-sm-6" style="margin-top: 50px;">
+                 <label class="lead text-black" style="margin-right: 5px;">Total Amount Due: </label> Php: <label style="font-size: 22px; margin-left: 5px;" class="text-info"> @String.Format("{0:N}", Model.t_amtBooking)</label>
+            </div>
+            <br/>
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 5px;" id="paymentsTable">
+        
+       @{
+
+           Html.RenderAction("GetPaymentList","Payments",new {transId=Model.transId});
+       }    
+     
+
+    </div>
+</section>
+
+
+<div class="modal fade" id="modal-PaymentBooking">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Enter Payment Details</h4>
+            </div>
+            <div class="modal-body" id="modalcontent">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div id="spinn-loader">
+    Loading data Pls. wait....
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var paymentsUrl= {
+
+            payUrl_loadPayments: "@Url.Action("LoadPaymentList", "Payments")",
+            payUrl_addPayment: "@Url.Action("Add_PaymentPartialView", "Payments")",
+            payUrl_updatePayment: "@Url.Action("Update_PaymentPartialView", "Payments")",
+            payUrl_removePayment:"@Url.Action("RemovePayment", "Payments")"
+        }
+
+       
+
+
+      
+
+    </script>
+    @Scripts.Render("~/Scripts/datatable_Sum.js")
+    @Scripts.Render("~/Scripts/js_payment.js")
+
+}

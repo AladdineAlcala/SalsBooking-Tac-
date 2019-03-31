@@ -1,0 +1,29 @@
+﻿@using SBOSys.ViewModel
+@model EventSelectionViewModel
+
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <span class="box-title" style="display: inline"><i class="fa fa-calendar"></i> Event List for :</span>
+        <span class="text-danger">@Model.eventdateselected.ToString("MMM d, yyyy")</span>
+    </div>
+    <div class="box-body">
+        <table cellpadding=3 class=aeue style="background-color: #f3f3f3">
+           
+            @foreach (var item in Model.eventlist)
+            {
+               
+                <tr style="margin-bottom: 5px;">
+                    <td class=aeue style="color:white;width:45px;text-align:center; border-bottom: 1px solid black;">@item.bookdatetime.Value.ToString("t")</td>
+                    <td style="color: black; width: 180px; padding-left: 8px; border-bottom: 1px solid black">
+                        <span class="text-light-blue text-bold" style="font-size: 12pt;">@item.cusfullname</span>
+                        <br><span class="text-black small" style="font-size: 9.5pt;"><i class="fa fa-map-marker" aria-hidden="true" style="color: red;"></i> @item.venue</span>
+                        <br><span class="text-black small" style="font-size: 9.5pt;"><i class="fa fa-building-o" aria-hidden="true" style="color: blue;"></i> @item.occasion</span>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
