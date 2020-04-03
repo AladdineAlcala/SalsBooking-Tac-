@@ -1,0 +1,9 @@
+﻿The model was generated with warnings or errors.PegasusEntityModel.edmxPlease see the Error List for more details. These issues must be fixed before running your application.
+Loading metadata from the database took 00:00:01.5805165.
+Generating the model took 00:00:03.6508417.
+The model was generated with warnings or errors.PegasusEntityModel.edmxPlease see the Error List for more details. These issues must be fixed before running your application.
+Loading metadata from the database took 00:00:01.1015971.
+Generating the model took 00:00:03.2802666.
+The model was generated with warnings or errors.PegasusEntityModel.edmxPlease see the Error List for more details. These issues must be fixed before running your application.
+Loading metadata from the database took 00:00:01.2199346.
+Generating the model took 00:00:03.3796764.

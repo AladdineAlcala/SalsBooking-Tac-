@@ -1,0 +1,153 @@
+﻿<div id="spinn-loader">
+    Loading data Pls. wait....
+</div>
+
+<section class="content" style="min-height: 100px;">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-blue">Customer Accounts Recievables</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6 col-md-offset-3">
+                        
+                        <div class="form-group">
+                            <input type="text" id="accncustomer" class="form-control" placeholder="Search Customer" autofocus="autofocus" />
+
+                            @*<div class="input-group">
+                                <input type="text" id="accncustomer" class="form-control" placeholder="Search Customer" autofocus="autofocus" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat" id="search_accncustomer" style="margin-bottom: 7px;">
+                                        Search
+                                    </button>
+                                </span>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="hiddencusId" />
+            </div>
+        </div>
+
+
+    </div>
+
+
+</section>
+<div class="row" id="filteredRecord">
+    
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/js_recievables.js")
+
+    <script type="text/javascript">
+
+
+        var recievableUrl = {
+            url_loadrecievablelist: "@Url.Action("GetPaymentListView", "Recievables")",
+            inquiryUrl_loadbookingsbycustomer: "@Url.Action("LoadBookingsByCustomer", "Recievables")"
+
+        }
+
+        var bookingsUrl = {
+            
+            bookUrl_getPackageId: "@Url.Action("GetPackageId","Bookings")",
+            bookUrl_paymentBooking: "@Url.Action("GetBooking_Payments", "Payments",new {transactionId="tId"})"
+        }
+
+
+        $(function() {
+
+            //var vm = {};
+            var customers = "";
+
+            customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('fullname'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+                remote: {
+                   url: '/Customers/GetCustomers?query=%QUERY',
+                  //url: '/Sals/Customers/GetCustomers?query=%QUERY',
+                    wildcard: '%QUERY'
+
+                }
+
+            });
+
+            //customers.initialize();
+            $('#hiddencusId').val('');
+
+            //console.log('1');
+
+
+           var bookingclients= $('#accncustomer').typeahead({
+                       highlight: true,
+                       hint: true,
+                       minLength: 1
+                        },
+                        {
+                            name: 'customers',
+
+                            display: 'fullname',
+
+                            source: customers
+
+                        }).on("typeahead:selected typeahead:autocompleted",
+
+                        function(e, customer) {
+                            e.preventDefault();
+
+                            bookingclients.typeahead('val', '');
+
+                            //$('#hiddencusId').val(customer.customerId);
+
+                            getClient(customer);
+
+
+                        });
+
+        });
+
+        function getClient(client) {
+
+            if (client.fullname.length > 0) {
+                //console.log(client);
+
+              $('#spinn-loader').show();
+
+              $.ajax({
+                  type: 'Get',
+                  url: recievableUrl.url_loadrecievablelist,
+                  contentType: 'application/html;charset=utf8',
+                  datatype: 'html',
+                  data: { cusId: client.customerId},
+                  cache: false,
+                  success: function (result) {
+
+                      $('#filteredRecord').html(result);
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                      Swal.fire('Error on retrieving record!', 'Please try again', 'error');
+                  }
+
+
+              }).done(function () {
+
+                  recievables(client.customerId);
+
+                  $('#spinn-loader').hide();
+
+              });
+          } 
+        }
+
+
+    </script>
+
+   
+
+}

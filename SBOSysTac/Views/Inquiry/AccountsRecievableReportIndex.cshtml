@@ -1,0 +1,217 @@
+﻿
+<div class="row">
+    <section class="content">
+        <div class="pad margin no-print" style="padding-left: 0px !important; padding-right: 0px !important; margin-bottom: 0px; padding-bottom: 0px;">
+            <div class="callout callout-info" style="margin-bottom: 15px;">
+                <h4><i class="fa fa-info" style="padding: 0px; margin: 0px;"></i> Print Account Recievables </h4>
+
+            </div>
+        </div>
+        <input type="hidden" id="cusIdHidden"/>
+
+        <div class="row" id="accnrecievables">
+            <div class="register-box" style="margin-top: 10px;">
+
+                <p class="lead text-center">Select Print Options</p>
+
+                <div class="box box-success">
+
+                    <div class="box-body" style="height: 150px;">
+
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="radio">
+
+                                    <label>
+                                   
+                                        @Html.RadioButton("printopt", "accnrecievesummary" ,new {id="printcon", @checked = true })
+                                        Account Recievables Summary (ToDate)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="radio">
+
+                                    <label>
+                                  
+                                        @Html.RadioButton("printopt", "accnrecievepercustomer")
+                                        Account Recievables per Customer
+                                    </label>
+                                
+                                  
+
+                                </div>
+                                <input type="text" class="form-control disabled" id="txtsearchcustomer" />
+                            </div>
+
+                        </div>
+
+                    </div>
+                
+                    <div class="box-footer" style="padding-left: 0px;">
+                        <div class="col-sm-6 col-sm-offset-4">
+                            <a class="btn bg-olive btn-flat printopt" href="@Url.Action("RecievableprintOption","Inquiry")">View</a>
+                            <button class="btn bg-purple btn-flat"type="button" id="cancel" onclick="window.history.back()">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+       
+
+        var url_AccountRecievables= {
+            
+            loadAccnrecievebyCusId:"@Url.Action("LoadAccoundReceivablesByCustomer","Inquiry")"
+        }
+
+
+        $(document).ready(function() {
+
+
+            //var transid = $('#hiddenid').val();
+
+
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('fullname'),
+
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+                remote: {
+                    url: '/Customers/GetCustomers?query=%QUERY',
+                    //url: '/Sals/Customers/GetCustomers?query=%QUERY',
+                    wildcard: '%QUERY'
+
+                }
+
+            });
+
+            //customers.initialize();
+
+            $('#txtsearchcustomer').typeahead({
+                    highlight: true
+
+                },
+                {
+                    name: 'customers',
+
+                    display: 'fullname',
+
+                    source: customers
+
+                }).on("typeahead:selected typeahead:autocompleted",
+                function (e, customer) {
+                    e.preventDefault();
+
+                    $('#cusIdHidden').val(customer.customerId);
+
+                    // recievablesCokies(customer.customerId);
+
+                    //vm.customerId = customer.customerId;
+                    //console.log(vm.customerId);
+                });
+
+
+
+
+
+            $('a.printopt').on('click',function(e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                debugger;
+
+
+                var selopt = $('input[type="radio"][name="printopt"]:checked').val();
+
+                $cusId = $('#cusIdHidden').val();
+
+                var url = $(this).attr('href');
+
+                if (selopt === 'accnrecievesummary') {
+
+                    window.location.href = url + '?selprintopt=' + selopt;
+
+                } else {
+                    
+
+                    window.location.href = url + '?cusId=' + $cusId + '&selprintopt=' + selopt;
+
+                    //$.ajax({
+                    //    type: 'Get',
+                    //    url:'/Inquiry/RecievableprintOption',
+                    //    contentType: 'application/html;charset=utf8',
+                    //    data: { cusId: $cusId, selprintopt: selopt },
+                    //    datatype: 'html',
+                    //    cache: false,
+                    //    success: function (result) {
+
+                    //        var id = $('#cusIdHidden').val();
+
+                    //        console.log(id);
+
+                    //        $('#tblcusrecievablesReport').DataTable({
+
+                             
+
+
+                    //        });
+
+                    //        //console.log(result);
+
+                    //        $('#accnrecievables').html(result);
+                    //    },
+                    //    error: function (xhr, ajaxOptions, thrownError) {
+                    //        Swal.fire('Error on retrieving record!', 'Please try again', 'error');
+                    //    }
+
+
+                    //});
+
+                }
+
+             
+            });
+
+
+            $('input[type="radio"][name="printopt"]').on('change',function(e) {
+
+                e.preventDefault();
+
+                //alert($(this).val());
+
+            });
+
+            $('#txtsearchcustomer').on('focus',
+                function(e) {
+
+                    e.preventDefault();
+
+                    $('input[type="radio"][id="printopt"]').prop("checked", true);
+
+                });
+
+
+        });
+
+    </script>
+
+
+    @*@Scripts.Render("~/Scripts/js_accnrecievableinquiry.js")*@
+
+}

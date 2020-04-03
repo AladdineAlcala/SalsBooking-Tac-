@@ -1,0 +1,51 @@
+﻿<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <i class="fa fa-cart-plus fa-fw"></i>
+                    <h3 class="box-title">List of Deleted Files</h3>
+                </div>
+
+                <div class="box-body">
+                    @*<div class="row">
+                            <div class="col-md-3">
+
+                            </div>
+                        </div>*@
+
+                    <table class="table table-condensed table-hover" id="tbl_archive" style="width:100%;">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Table</th>
+                            <th>Column Values</th>
+                            <th>Deleted Date/Time</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+
+        var archiveUrl = {
+            url_LoadArchives:"@Url.Action("Index", "Bookings")"
+         
+
+        }
+    </script>
+
+    @Scripts.Render("~/Scripts/js_archives.js")
+
+}

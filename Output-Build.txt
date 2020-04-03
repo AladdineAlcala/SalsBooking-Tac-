@@ -1,3 +1,3 @@
-﻿1>------ Build started: Project: SBOSys, Configuration: Debug Any CPU ------
-1>  SBOSys -> E:\SalsProject\SBOSys\SBOSys\bin\SBOSys.dll
+﻿1>------ Build started: Project: SBOSysTac, Configuration: Debug Any CPU ------
+1>  SBOSysTac -> E:\SalsProject\SBOSysTac\SBOSysTac\bin\SBOSysTac.dll
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

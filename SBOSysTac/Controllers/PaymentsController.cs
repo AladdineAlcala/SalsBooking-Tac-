@@ -1,0 +1,301 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using SBOSysTac.HtmlHelperClass;
+using SBOSysTac.Models;
+using SBOSysTac.ViewModel;
+
+namespace SBOSysTac.Controllers
+{
+
+
+    [UserPermissionAuthorized(UserPermessionLevelEnum.superadmin, UserPermessionLevelEnum.admin,UserPermessionLevelEnum.cashier)]
+
+    public class PaymentsController : Controller
+    {
+
+
+        private BookingsViewModel bookingsViewModel=new BookingsViewModel();
+        private PaymentsViewModel paymentsViewModel=new PaymentsViewModel();
+        private BookingPaymentsViewModel bookingPayments=new BookingPaymentsViewModel();
+        private TransRecievablesViewModel tr = new TransRecievablesViewModel();
+        private PaymentsViewModel pv = new PaymentsViewModel();
+        private TransactionDetailsViewModel transdetails=new TransactionDetailsViewModel();
+        private PegasusEntities _dbcontext;
+
+        public PaymentsController()
+        {
+            _dbcontext = new PegasusEntities();
+        }
+
+        [HttpGet]
+        public ActionResult GetBooking_Payments(int transactionId)
+        {
+            BookingPaymentsViewModel bookpay=new BookingPaymentsViewModel();
+
+         //  BookingsViewModel bbViewModel=new BookingsViewModel();
+            try
+            {
+                decimal totalAmount = 0;
+                bookpay.transId = transactionId;
+
+                bookpay.Bookings = bookingsViewModel.GetListofBookings().SingleOrDefault(x => x.trn_Id == transactionId);
+
+                totalAmount = bookingPayments.Get_TotalAmountBook(transactionId);
+                bookpay.t_amtBooking=totalAmount;
+                bookpay.t_addons = bookingPayments.getTotalAddons(transactionId);
+                bookpay.cateringdiscount = bookingPayments.GetCateringDiscount(transactionId);
+                bookpay.locationextcharge = transdetails.Get_extendedAmountLoc(transactionId);
+                bookpay.generaldiscount = bookingPayments.getBookingTransDiscount(transactionId, totalAmount);
+
+                bookpay.PaymentList = bookingPayments.GetPaymentDetaiilsBooking(transactionId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return View(bookpay);
+        }
+
+        public ActionResult LoadPaymentList(int transactionId)
+        {
+           List<PaymentsViewModel>listpayment=new List<PaymentsViewModel>();
+
+            try
+            {
+
+                listpayment = paymentsViewModel.GetPaymentsList().Where(p=>p.transId==transactionId).ToList();
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return Json(new {data=listpayment }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Add_PaymentPartialView(int transactionId)
+        {
+            PaymentsViewModel pay=new PaymentsViewModel();
+
+            //pay.particular = Utilities.EventSlip_Generator();
+            pay.transId = transactionId;
+            pay.dateofPayment=DateTime.Now;
+            pay.payType = 1;
+
+            return PartialView(pay);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SavePayment(PaymentsViewModel paymentviewmodel)
+        {
+            if (!ModelState.IsValid) return PartialView("Add_PaymentPartialView", paymentviewmodel);
+
+          //  bool success = false;
+
+            var url = "";
+            try
+            {
+                Payment newPayment=new Payment()
+                {
+                    payNo = Utilities.Generate_PaymentId(),
+                    trn_Id = paymentviewmodel.transId,
+                    dateofPayment = paymentviewmodel.dateofPayment,
+                    particular = paymentviewmodel.particular,
+                    payType = paymentviewmodel.payType,
+                    amtPay = paymentviewmodel.amtPay,
+                    pay_means = paymentviewmodel.pay_means,
+                    checkNo = paymentviewmodel.checkNo,
+                    notes = paymentviewmodel.notes,
+                    p_createdbyUser = User.Identity.GetUserId()
+
+                };
+
+                _dbcontext.Payments.Add(newPayment);
+                _dbcontext.SaveChanges();
+
+                url = Url.Action("GetPaymentList", "Payments", new {transId = paymentviewmodel.transId });
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return Json(new {success = true,url=url}, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [UserPermissionAuthorized(UserPermessionLevelEnum.superadmin, UserPermessionLevelEnum.admin, UserPermessionLevelEnum.cashier)]
+        [HttpPost]
+        public ActionResult RemovePayment(int pmtNo)
+        {
+            Payment paymt=new Payment();
+            bool success = false;
+            var url = "";
+           
+            try
+            {
+                paymt = _dbcontext.Payments.Find(pmtNo);
+
+                int t_Id =Convert.ToInt32(paymt.trn_Id);
+
+             
+                    _dbcontext.Payments.Remove(paymt);
+                    _dbcontext.SaveChanges();
+
+
+                    url = Url.Action("GetPaymentList", "Payments", new { transId =t_Id});
+                    success = true;
+               
+               
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return Json(new {success=success,url=url}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Update_PaymentPartialView(string pymtId)
+        {
+            Payment pmt=new Payment();
+            PaymentsViewModel pmtViewModel = new PaymentsViewModel();
+
+           
+                pmt = _dbcontext.Payments.FirstOrDefault(x => x.payNo == pymtId);
+
+                if (pmt != null)
+                {
+                     pmtViewModel = new PaymentsViewModel()
+                    {
+                        PayNo = pmt.payNo,
+                        transId = pmt.trn_Id,
+                        dateofPayment = pmt.dateofPayment,
+                        particular = pmt.particular,
+                        payType = pmt.payType,
+                        amtPay = pmt.amtPay,
+                        pay_means = pmt.pay_means.Trim(),
+                        checkNo = pmt.checkNo,
+                        notes = pmt.notes
+
+                    };
+
+                }
+
+            return PartialView(pmtViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update_PaymentPartialView(PaymentsViewModel updatedPayment)
+        {
+            if (!ModelState.IsValid) return PartialView("Update_PaymentPartialView", updatedPayment);
+
+            bool success = false;
+
+            var url = "";
+            try
+            {
+
+                var modifiedPayment = _dbcontext.Payments.FirstOrDefault(pay => pay.payNo == updatedPayment.PayNo);
+
+                if (modifiedPayment != null)
+                {
+                    modifiedPayment.payNo = updatedPayment.PayNo;
+                    modifiedPayment.trn_Id = updatedPayment.transId;
+                    modifiedPayment.dateofPayment = updatedPayment.dateofPayment;
+                    modifiedPayment.particular = updatedPayment.particular;
+                    modifiedPayment.payType = updatedPayment.payType;
+                    modifiedPayment.amtPay = updatedPayment.amtPay;
+                    modifiedPayment.pay_means = updatedPayment.pay_means;
+                    modifiedPayment.checkNo = updatedPayment.checkNo;
+                    modifiedPayment.notes = updatedPayment.notes;
+                    modifiedPayment.p_createdbyUser = User.Identity.GetUserId();
+
+                    url = Url.Action("GetPaymentList", "Payments", new { transId = modifiedPayment.trn_Id });
+                }
+
+            
+                _dbcontext.SaveChanges();
+
+               
+                success = true;
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return Json(new {success=success,url=url}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetPaymentList(int transId)
+        {
+            try
+            {
+                var paytrans = new PaymentTransViewModel()
+                {
+                    transId = transId,
+                    Booking = _dbcontext.Bookings.FirstOrDefault(x=>x.trn_Id==transId),
+                    TransRecievables = tr.GetRecieveDetails().FirstOrDefault(t => t.transId == transId),
+                    Payments = pv.GetPaymentsList().Where(p => p.transId == transId),
+                    refundentry = _dbcontext.Refunds.FirstOrDefault(x=>x.trn_Id==transId)
+                };
+
+                return PartialView("_PaymentsList", paytrans);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
+            
+        }
+
+
+        public ActionResult PrintPaymentDetails(int transId)
+        {
+            var pOption = new PrintOptionViewModel()
+            {
+                Id = transId,
+                selPrintOpt ="printaccnRcv"
+
+            };
+
+            //var contractReciept=new ContractReceiptViewModel();
+
+            //contractReciept = cr.getContractReciept(pOption.Id);
+
+            //return View("~/Views/Bookings/PrintContractForm.cshtml", contractReciept);
+
+            return View("~/Views/Shared/ReportContainer.cshtml", pOption);
+
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _dbcontext.Dispose();
+        }
+    }
+}

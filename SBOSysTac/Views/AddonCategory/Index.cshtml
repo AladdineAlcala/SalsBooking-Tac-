@@ -1,0 +1,93 @@
+﻿<section class="content">
+    <div class="row">
+        <div class="col-xs-10">
+            <div class="box">
+                <div class="box-header with-border">
+                    <i class="fa fa-address-card fa-fw"></i>
+                    <h3 class="box-title">Addons Category Table</h3>
+             
+                </div>
+                
+                <div class="box-body">
+                    <table id="table_addonscategory" class="table table-bordered table-hover" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Cat No.</th>
+                            <th>Addon Category</th>
+                        
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modalcreateaddoncat">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create New Addon Category</h4>
+            </div>
+            <div class="modal-body" id="modalcontent">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="modalmodifyaddoncat">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Modify Addon Category</h4>
+            </div>
+            <div class="modal-body" id="modalcontent">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+        var addonCatUrl = {
+            addoncat_LoadDatatable: "@Url.Action("LoadAddonsCategoryList", "AddonCategory")",
+            addoncat_Index: "@Url.Action("Index", "AddonCategory")",
+            addoncat_Create: "@Url.Action("Create_AddonCategory", "AddonCategory")",
+            addoncat_Modify: "@Url.Action("Modify_AddonCategory", "AddonCategory")",
+            addoncat_Remove: "@Url.Action("RemoveAddonsCategory", "AddonCategory")"
+
+
+        }
+    </script>
+
+    @Scripts.Render("~/Scripts/js_addonscategory.js")
+
+
+}
+

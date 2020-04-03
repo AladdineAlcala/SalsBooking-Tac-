@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <section class="content">
+        <div class="row">
+            
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                
+                    <div class="box-header with-border">
+                        <i class="fa fa-cart-plus"></i>
+                        <h3 class="box-title">Cancelled Booking List</h3>
+                    </div>
+                
+                    <div class="box-body">
+                        <table class="table table-condensed table-bordered table-hover" id="cancelledlist">
+                        
+                            <thead>
+                            <tr>
+                                <th>Booking No.</th>
+                                <th>Customer Name</th>
+                                <th>Reason</th>
+                                <th>Date Cancelled</th>
+                            </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        
+        var url_cancelledbooking= {
+            bookingListIndex:"@Url.Action("Load_CancelledBookingList","Inquiry")"
+        }
+
+    </script>
+    
+    @Scripts.Render("~/Scripts/js_cancelBooking.js")
+}
