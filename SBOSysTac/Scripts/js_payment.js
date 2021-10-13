@@ -7,7 +7,8 @@ $(document).ready(function() {
 
     var data = $("#tbl_paymentBooking tr:eq(1)");
 
-    // var x = parseFloat(data.find("td:eq(5)").text().replace(/,/g, '')).toFixed(2);
+    /* var x = parseFloat(data.find("td:eq(5)").text().replace(/,/g, '')).toFixed(2);*/
+
     var initBal = cleanDecimal(data.find("td:eq(6)").text());
 
     //console.log(init_bal);

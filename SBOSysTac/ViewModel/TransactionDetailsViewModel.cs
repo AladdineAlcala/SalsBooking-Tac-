@@ -137,14 +137,14 @@ namespace SBOSysTac.ViewModel
         }
 
 
-        public decimal Get_extendedAmountLoc(int transId)
+        public decimal Get_extendedAmountLoc(String packageType,Booking booking)
         {
             decimal extAmt = 0;
 
-            var booking = _dbEntities.Bookings.FirstOrDefault(x => x.trn_Id == transId);
+            // var booking = _dbEntities.Bookings.FirstOrDefault(x => x.trn_Id == transId);
 
 
-            if (booking.Package.p_type.Trim() != "vip" && booking.extendedAreaId!=null)
+            if (packageType.Trim() != "vip" && booking.extendedAreaId.ToString() != null)
             {
                 try
                 {
@@ -173,6 +173,46 @@ namespace SBOSysTac.ViewModel
                 }
             }
            
+
+            return extAmt;
+        }
+
+        public decimal Get_extendedAmountLoc(int transId)
+        {
+            decimal extAmt = 0;
+
+            var booking = _dbEntities.Bookings.FirstOrDefault(x => x.trn_Id == transId);
+
+
+            if (booking.Package.p_type.Trim() != "vip" && booking.extendedAreaId != null)
+            {
+                try
+                {
+                    var list = (from b in _dbEntities.Bookings
+                                join p in _dbEntities.Packages on b.p_id equals p.p_id
+                                join pa in _dbEntities.PackageAreaCoverages on p.p_id equals pa.p_id
+                                where pa.p_id == booking.p_id && pa.aID == booking.extendedAreaId
+                                select new
+                                {
+                                    extLocAmount = pa.ext_amount
+
+                                }).FirstOrDefault();
+
+
+                    if (list != null)
+                    {
+
+                        extAmt = Convert.ToDecimal(list.extLocAmount);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+
 
             return extAmt;
         }

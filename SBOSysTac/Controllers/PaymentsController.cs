@@ -35,7 +35,7 @@ namespace SBOSysTac.Controllers
         [HttpGet]
         public ActionResult GetBooking_Payments(int transactionId)
         {
-            BookingPaymentsViewModel bookpay=new BookingPaymentsViewModel();
+            var bookpay=new BookingPaymentsViewModel();
 
          //  BookingsViewModel bbViewModel=new BookingsViewModel();
             try
@@ -43,16 +43,22 @@ namespace SBOSysTac.Controllers
                 decimal totalAmount = 0;
                 bookpay.transId = transactionId;
 
-                bookpay.Bookings = bookingsViewModel.GetListofBookings().SingleOrDefault(x => x.trn_Id == transactionId);
+                //.SingleOrDefault(x => x.trn_Id == transactionId)
+
+                bookpay.Bookings = bookingsViewModel.GetListofBookings(transactionId);
 
                 totalAmount = bookingPayments.Get_TotalAmountBook(transactionId);
-                bookpay.t_amtBooking=totalAmount;
+                bookpay.t_amtBooking = totalAmount;
                 bookpay.t_addons = bookingPayments.getTotalAddons(transactionId);
                 bookpay.cateringdiscount = bookingPayments.GetCateringDiscount(transactionId);
                 bookpay.locationextcharge = transdetails.Get_extendedAmountLoc(transactionId);
                 bookpay.generaldiscount = bookingPayments.getBookingTransDiscount(transactionId, totalAmount);
 
                 bookpay.PaymentList = bookingPayments.GetPaymentDetaiilsBooking(transactionId);
+
+               // bookpay.Bookings.startdate = DateTime.Now;
+
+
             }
             catch (Exception e)
             {
@@ -70,8 +76,9 @@ namespace SBOSysTac.Controllers
             try
             {
 
-                listpayment = paymentsViewModel.GetPaymentsList().Where(p=>p.transId==transactionId).ToList();
+                //listpayment = paymentsViewModel.GetPaymentsList().Where(p=>p.transId==transactionId).ToList();
 
+                listpayment = paymentsViewModel.GetPaymentsListByClient(transactionId).ToList();
 
             }
             catch (Exception e)
@@ -79,6 +86,8 @@ namespace SBOSysTac.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+
+
             return Json(new {data=listpayment }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -250,16 +259,17 @@ namespace SBOSysTac.Controllers
         [HttpGet]
         public ActionResult GetPaymentList(int transId)
         {
+            var paytrans = new PaymentTransViewModel();
             try
             {
-                var paytrans = new PaymentTransViewModel()
-                {
-                    transId = transId,
-                    Booking = _dbcontext.Bookings.FirstOrDefault(x=>x.trn_Id==transId),
-                    TransRecievables = tr.GetRecieveDetails().FirstOrDefault(t => t.transId == transId),
-                    Payments = pv.GetPaymentsList().Where(p => p.transId == transId),
-                    refundentry = _dbcontext.Refunds.FirstOrDefault(x=>x.trn_Id==transId)
-                };
+
+                paytrans.transId = transId;
+                paytrans.Payments = pv.GetPaymentsListByClient(transId);   //804ms
+                paytrans.Booking = _dbcontext.Bookings.ToList().Find(t => t.trn_Id == transId);  //863ms
+
+                paytrans.TransRecievables = tr.GetRecieveDetailsByTransaction(paytrans.Booking);  //48,672 ms
+
+                    //refundentry = _dbcontext.Refunds.FirstOrDefault(x=>x.trn_Id==transId)
 
                 return PartialView("_PaymentsList", paytrans);
 

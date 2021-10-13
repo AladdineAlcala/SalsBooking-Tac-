@@ -25,9 +25,9 @@ namespace SBOSysTac.ViewModel
         public decimal Get_TotalAmountBook(int transId)
         {
             decimal totalAmount = 0;
-            var  _dbcontext=new PegasusEntities();
+            var _dbcontext=new PegasusEntities();
 
-           Booking b=new Booking();
+           var booking=new Booking();
            List<BookingAddon> addonsList=new List<BookingAddon>();
 
 
@@ -36,12 +36,12 @@ namespace SBOSysTac.ViewModel
                 decimal totalPackage_Amount = 0;
                 decimal addons = 0;;
 
-                b = _dbcontext.Bookings.ToList().FirstOrDefault(x => x.trn_Id == transId);
+                booking = _dbcontext.Bookings.ToList().Find(t => t.trn_Id == transId);
 
 
-                if (b != null)
+                if (booking != null)
                 {
-                    totalPackage_Amount = Convert.ToDecimal(b.Package.p_amountPax) * Convert.ToInt32(b.noofperson);
+                    totalPackage_Amount = Convert.ToDecimal(booking.Package.p_amountPax) * Convert.ToInt32(booking.noofperson);
 
                 }
 
@@ -70,15 +70,15 @@ namespace SBOSysTac.ViewModel
 
                 if (hasLocationExtendedCharge > 0)
                 {
-                    totalAmount = totalAmount + (hasLocationExtendedCharge * Convert.ToInt32(b.noofperson));
+                    totalAmount = totalAmount + (hasLocationExtendedCharge * Convert.ToInt32(booking.noofperson));
                 }
 
-                var hasCateringdiscounted = transdetails.getCateringdiscount(Convert.ToInt32(b.noofperson));
+                var hasCateringdiscounted = transdetails.getCateringdiscount(Convert.ToInt32(booking.noofperson));
 
 
                 if (hasCateringdiscounted > 0)
                 {
-                    totalAmount = totalAmount - (hasCateringdiscounted * Convert.ToInt32(b.noofperson));
+                    totalAmount = totalAmount - (hasCateringdiscounted * Convert.ToInt32(booking.noofperson));
                 }
 
 
@@ -101,11 +101,102 @@ namespace SBOSysTac.ViewModel
             }
 
 
+            _dbcontext.Dispose();
 
             return totalAmount;
         }
 
-      
+
+        //Updating Total Amount Book Parameter with Booking Object
+        public decimal Get_TotalAmountBook(Booking booking)
+        {
+            decimal totalAmount = 0;
+            var _dbcontext = new PegasusEntities();
+
+            List<BookingAddon> addonsList = new List<BookingAddon>();
+
+
+            try
+            {
+                decimal totalPackage_Amount = 0;
+                decimal addons = 0;
+
+                if (booking != null)
+                {
+                    totalPackage_Amount = Convert.ToDecimal(booking.Package.p_amountPax) * Convert.ToInt32(booking.noofperson);
+
+                }
+
+                addonsList = GetAllBookingsAddon(_dbcontext, booking.trn_Id);
+
+                if (addonsList.Count > 0)
+                {
+                    addons = Convert.ToDecimal(addonsList.Sum(x => x.AddonAmount));
+                }
+
+                // get transaction discount 
+                totalAmount = totalPackage_Amount + addons;
+
+                var discount = this.getBookingTransDiscount(transId, totalAmount);
+
+                if (discount > 0)
+                {
+
+                    totalAmount = totalAmount - discount;
+
+                    //totalAmount = (totalPackage_Amount + addons) - discount;
+                }
+
+
+                var hasLocationExtendedCharge = transdetails.Get_extendedAmountLoc(booking.Package.p_type, booking);
+
+                if (hasLocationExtendedCharge > 0)
+                {
+                    totalAmount = totalAmount + (hasLocationExtendedCharge * Convert.ToInt32(booking.noofperson));
+                }
+
+                var hasCateringdiscounted = transdetails.getCateringdiscount(Convert.ToInt32(booking.noofperson));
+
+
+                if (hasCateringdiscounted > 0)
+                {
+                    totalAmount = totalAmount - (hasCateringdiscounted * Convert.ToInt32(booking.noofperson));
+                }
+
+
+
+
+                //var belowminpax = transdetails.GetBelowMinPaxAmount(Convert.ToInt32(b.noofperson));
+
+                //if (belowminpax > 0)
+                //{
+                //    var belowminpaxAmt = belowminpax * Convert.ToInt32(b.noofperson);
+
+                //    totalAmount = totalAmount + belowminpaxAmt;
+                //}
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
+            _dbcontext.Dispose();
+
+            return totalAmount;
+
+            
+        }
+
+
+        public List<BookingAddon> GetAllBookingsAddon(PegasusEntities _dbcontext ,int transId)
+
+        { 
+            return _dbcontext.BookingAddons.Where(x => x.trn_Id == transId)
+                                                                 .ToList();
+        }
 
 
         public decimal GetCateringDiscount(int transid)
@@ -125,6 +216,10 @@ namespace SBOSysTac.ViewModel
                 discountedAmount =Convert.ToDecimal(amount * noofpax);
             }
 
+
+            _dbcontext.Dispose();
+
+
             return discountedAmount;
 
         }
@@ -134,6 +229,7 @@ namespace SBOSysTac.ViewModel
             var _dbcontext = new PegasusEntities();
             var addonsList = _dbcontext.BookingAddons.Where(x => x.trn_Id == transId).ToList();
 
+            _dbcontext.Dispose();
             
                return(Convert.ToDecimal(addonsList.Sum(x => x.AddonAmount)));
             
@@ -172,7 +268,10 @@ namespace SBOSysTac.ViewModel
                 throw;
             }
 
-            return paylist.ToList();
+
+            _dbcontext.Dispose();
+
+            return paylist;
         }
 
 
@@ -224,6 +323,9 @@ namespace SBOSysTac.ViewModel
                 Console.WriteLine(e);
                 throw;
             }
+
+
+            _dbcontext.Dispose();
 
             return Convert.ToDecimal(discountedAmount);
 

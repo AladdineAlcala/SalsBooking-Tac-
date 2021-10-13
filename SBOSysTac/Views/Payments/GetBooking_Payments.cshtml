@@ -50,7 +50,7 @@
 </section>
 
 <section class="invoice">
-    @*<div class="row">
+    <div class="row">
         <div class="col-xs-12">
 
             <h2 class="page-header">
@@ -60,7 +60,7 @@
             </h2>
 
         </div>
-    </div>*@
+    </div>
     
     <div class="row" style="margin-bottom: 0; padding-bottom: 0;">
         <div class="col-xs-6">
@@ -72,7 +72,8 @@
         <div class="col-xs-6">
             <small class="pull-right bookdetails" style="padding-top: 12px;"><b>Trn Date:</b>
                   
-                @Model.Bookings.transdate.Value.ToString("MMM d, yyyy h:mm tt")</small>
+                @*@Model.Bookings.transdate.Value.ToString("MMM d, yyyy h:mm tt")*@
+            </small>
             
         </div>
     </div>
@@ -120,8 +121,8 @@
                 <div class="control-label col-sm-4"> PACKAGE TYPE:</div> <span class="bookdetails">@Html.DisplayFor(m => m.Bookings.packageType)</span> 
                 <br />
                
-                @*<div class="control-label col-sm-4"> DISCOUNT:</div> <span class="bookdetails">@String.Format("{0:N}", totaldiscount)</span> 
-                <br />*@
+                <div class="control-label col-sm-4"> DISCOUNT:</div> <span class="bookdetails">@String.Format("{0:N}", totaldiscount)</span> 
+                <br />
 
             </div>
 
@@ -199,6 +200,7 @@
       
 
     </script>
+
     @Scripts.Render("~/Scripts/datatable_Sum.js")
     @Scripts.Render("~/Scripts/js_payment.js")
 

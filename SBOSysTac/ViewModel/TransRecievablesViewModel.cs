@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using SBOSysTac.HtmlHelperClass;
 using SBOSysTac.Models;
 
@@ -104,9 +102,10 @@ namespace SBOSysTac.ViewModel
             List<TransRecievablesViewModel> recievable_list = new List<TransRecievablesViewModel>();
             try
             {
-                IEnumerable<Booking> bookings = (from booking in db_entities.Bookings select booking).ToList();
+                var bookings = (from booking in db_entities.Bookings select booking).ToList();
 
                 recievable_list = (from b in bookings
+
                     select new TransRecievablesViewModel()
                     {
 
@@ -136,7 +135,51 @@ namespace SBOSysTac.ViewModel
             return recievable_list.ToList();
         }
 
-        
+
+        public TransRecievablesViewModel GetRecieveDetailsByTransaction(Booking booking)
+        {
+
+            var recievable = new TransRecievablesViewModel();
+            try
+            {
+
+                transId = booking.trn_Id;
+                transDate = Convert.ToDateTime(booking.transdate);
+                bookdatetime = Convert.ToDateTime(booking.startdate);
+                cusId = Convert.ToInt32(booking.Customer.c_Id);
+                totalPackageAmount = bookingPayments.Get_TotalAmountBook((Booking)booking);
+
+                //recievable_list = (from b in booking
+                //                   select new TransRecievablesViewModel()
+                //                   {
+
+                //                       transId = b.trn_Id,
+                //                       transDate = Convert.ToDateTime(b.transdate),
+                //                       bookdatetime = Convert.ToDateTime(b.startdate),
+                //                       cusId = Convert.ToInt32(b.Customer.c_Id),
+
+                //                       //cusfullname = Utilities.getfullname(b.Customer.lastname, b.Customer.firstname,
+                //                       //    b.Customer.middle),
+                //                       //occasion = b.occasion,
+                //                       //venue = b.venue,
+                //                       //packagedetails = b.Package.p_descripton,
+                //                       //p_amountperPax = b.Package.p_amountPax,
+                //                       totalPackageAmount = bookingPayments.Get_TotalAmountBook((Booking)b)
+
+                //                   }).Single();
+
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return recievable;
+        }
 
     }
 }

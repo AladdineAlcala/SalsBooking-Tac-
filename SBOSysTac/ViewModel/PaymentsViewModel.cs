@@ -33,10 +33,11 @@ namespace SBOSysTac.ViewModel
 
        
 
-        private PegasusEntities _dbcontext = new PegasusEntities();
+       
+
         public IEnumerable<PaymentsViewModel> GetPaymentsList()
         {
-
+           var _dbcontext = new PegasusEntities();
             List<PaymentsViewModel> paymentslist = new List<PaymentsViewModel>();
 
             try
@@ -68,9 +69,50 @@ namespace SBOSysTac.ViewModel
                 throw;
             }
 
+            _dbcontext.Dispose();
+
             return paymentslist.ToList();
         }
 
+
+        public IEnumerable<PaymentsViewModel> GetPaymentsListByClient(int transactionId)
+        {
+            var _dbcontext = new PegasusEntities();
+            var paymentslist = new List<PaymentsViewModel>();
+
+            try
+            {
+
+                paymentslist = (from p in _dbcontext.Payments where p.trn_Id==transactionId
+
+                                select new PaymentsViewModel()
+                                {
+                                    PayNo = p.payNo,
+                                    transId = p.trn_Id,
+                                    dateofPayment = p.dateofPayment,
+                                    particular = p.particular,
+                                    payType = p.payType,
+                                    amtPay = p.amtPay,
+                                    pay_means = p.pay_means,
+                                    checkNo = p.checkNo,
+                                    notes = p.notes
+
+
+                                }).OrderBy(x => x.dateofPayment).ToList();
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            _dbcontext.Dispose();
+
+            return paymentslist.ToList();
+        }
 
     }
 }
