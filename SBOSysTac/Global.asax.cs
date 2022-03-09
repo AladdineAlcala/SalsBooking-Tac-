@@ -19,7 +19,7 @@ namespace SBOSysTac
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            Application["Version"] = String.Format("{0}.{1}", version.Major, version.Minor);
+            Application["Version"] = string.Format("{0}.{1}", version.Major, version.Minor);
         }
     }
 }
