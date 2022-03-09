@@ -20,8 +20,9 @@ namespace SBOSysTac.ViewModel
         [Required(ErrorMessage = "Amount per head Required")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal p_amountPax { get; set; }
-        [Required(ErrorMessage = "Minimum total pax Required")]
+       
         public int? p_min { get; set; }
+        [Required(ErrorMessage = "Minimum total pax Required")]
         public int packagenopax_id { get; set; }
         public IEnumerable<SelectListItem> packageNoPax_listitem { get; set; }
 

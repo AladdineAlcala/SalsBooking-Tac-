@@ -132,21 +132,19 @@ namespace SBOSysTac.ViewModel
 
         }
 
-        public IEnumerable<BookMenusViewModel> GetLackingMenus(int transId)
+        //public IEnumerable<BookMenusViewModel> GetLackingMenus(int transId)
+        //{
+        //    List<BookMenusViewModel> list=new List<BookMenusViewModel>();
+
+        //    var dbentities=new PegasusEntities();
+
+        //    return list;
+        //}
+
+
+        public static int GetTotalLackingMenus(int pid,int transid, PegasusEntities dbcontext)
         {
-            List<BookMenusViewModel> list=new List<BookMenusViewModel>();
-
-            var dbentities=new PegasusEntities();
-
-
-
-            return list;
-        }
-
-
-        public static int GetTotalLackingMenus(int pid,int transid)
-        {
-            var dbcontext=new PegasusEntities();
+            //var dbcontext=new PegasusEntities();
 
             var packagemenucount = (from p in dbcontext.Packages where p.p_id==pid
                 join pb in dbcontext.PackageBodies on p.p_id equals pb.p_id
@@ -156,22 +154,19 @@ namespace SBOSysTac.ViewModel
                 }).Count();
 
 
-            var intmenusselected = (from bm in dbcontext.Book_Menus where bm.trn_Id==transid
-                join m in dbcontext.Menus on bm.menuid equals m.menuid
-                select new
-                {
-                    _menu = bm.menuid
-                }).Count();
+            var intmenusselected = (from bm in dbcontext.Book_Menus
+                                    where bm.trn_Id == transid
+                                    join m in dbcontext.Menus on bm.menuid equals m.menuid
+                                    select new
+                                    {
+                                        _menu = bm.menuid
+                                    }).Count();
 
             int count = packagemenucount - intmenusselected;
 
-            if (count < 0)
-            {
-                count = 0;
-            }
-          
+            if (count < 0) count = 0;
 
-            return count;
+            return count=count<0?0:count;
         }
     }
 }

@@ -262,25 +262,26 @@ namespace SBOSysTac.Controllers
             var paytrans = new PaymentTransViewModel();
             try
             {
+                paytrans.Booking = _dbcontext.Bookings.ToList().Find(t => t.trn_Id == transId);  //863ms
 
                 paytrans.transId = transId;
                 paytrans.Payments = pv.GetPaymentsListByClient(transId);   //804ms
-                paytrans.Booking = _dbcontext.Bookings.ToList().Find(t => t.trn_Id == transId);  //863ms
 
                 paytrans.TransRecievables = tr.GetRecieveDetailsByTransaction(paytrans.Booking);  //48,672 ms
 
-                    //refundentry = _dbcontext.Refunds.FirstOrDefault(x=>x.trn_Id==transId)
+                paytrans.refundentry = _dbcontext.Refunds.FirstOrDefault(x => x.trn_Id == transId);
 
-                return PartialView("_PaymentsList", paytrans);
+               
 
             }
+
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-           
-            
+
+            return PartialView("_PaymentsList", paytrans);
         }
 
 

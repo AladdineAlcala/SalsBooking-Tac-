@@ -28,15 +28,15 @@ namespace SBOSysTac.ViewModel
 
             auditList = (from a in auditloglist
                          select new AuditLogViewModel()
-                {
-                    logId = a.AuditLogId,
-                    dateLog = a.EventDateUTC,
-                    username = a.UserName,
-                    audit_operation = a.AuditOperation,
-                    tablename = a.TableName,
-                    audit_Data =JsonExtractorHelper.GetJson(a.AuditData)
+                            {
+                                logId = a.AuditLogId,
+                                dateLog = a.EventDateUTC,
+                                username = a.UserName,
+                                audit_operation = a.AuditOperation,
+                                tablename = a.TableName,
+                                audit_Data =JsonExtractorHelper.GetJson(a.AuditData)
 
-                }).OrderByDescending(x => x.logId).ToList();
+                            }).OrderByDescending(x => x.logId).ToList();
 
             return auditList;
         }

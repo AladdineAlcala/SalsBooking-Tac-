@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SBOSysTac.Areas.SuperAdmin
+namespace SBOSysTacV2.Areas.SuperAdmin
 {
     public class SuperAdminAreaRegistration : AreaRegistration 
     {

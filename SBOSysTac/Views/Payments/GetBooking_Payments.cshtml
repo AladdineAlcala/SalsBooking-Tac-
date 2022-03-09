@@ -50,7 +50,7 @@
 </section>
 
 <section class="invoice">
-    <div class="row">
+    @*<div class="row">
         <div class="col-xs-12">
 
             <h2 class="page-header">
@@ -60,7 +60,7 @@
             </h2>
 
         </div>
-    </div>
+    </div>*@
     
     <div class="row" style="margin-bottom: 0; padding-bottom: 0;">
         <div class="col-xs-6">
@@ -72,7 +72,7 @@
         <div class="col-xs-6">
             <small class="pull-right bookdetails" style="padding-top: 12px;"><b>Trn Date:</b>
                   
-                @*@Model.Bookings.transdate.Value.ToString("MMM d, yyyy h:mm tt")*@
+                @Model.Bookings.transdate.Value.ToString("MMM d, yyyy h:mm tt")
             </small>
             
         </div>

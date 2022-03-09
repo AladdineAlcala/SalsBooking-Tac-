@@ -42,9 +42,9 @@ namespace SBOSysTac.ViewModel
         }
 
 
-        public bool verifyPackagehasBookings(int packageId)
+        public bool VerifyPackagehasBookings(int packageId)
         {
-            bool has_existingBookings = false;
+            //bool has_existingBookings = false;
 
             var listofpackage = (from b in _dbEntities.Bookings
                 join p in _dbEntities.Packages on b.p_id equals p.p_id
@@ -54,12 +54,12 @@ namespace SBOSysTac.ViewModel
                     packageId=p.p_id
                 }).ToList();
 
-            if (listofpackage.Any())
-            {
-                has_existingBookings = true;
-            }
+            //if (listofpackage.Any())
+            //{
+            //    has_existingBookings = true;
+            //}
 
-            return has_existingBookings;
+            return (listofpackage.Any()?true:false);
         }
 
        

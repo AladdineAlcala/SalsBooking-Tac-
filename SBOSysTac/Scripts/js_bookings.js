@@ -205,20 +205,31 @@ $(document).ready(function () {
             e.preventDefault();
 
             Swal.fire({
-                title: "Cancel Booking Operation",
-                text: "Yes..Cancel this operation",
-                type: "info"
+                title: "Are You Sure ?",
+                text: "You will not be able to recover this information supplied!",
+                type: "question",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }).then((result) => {
 
-                     });
+                if (result.value) {
+
+                    setTimeout(function () {
+
+                        //window.location.href = PackageUrl.url_details.replace("pId", data.packageId);
+                        window.history.back();
+                        // $('#spinn-loader').hide();
+                    }, 500);
 
 
-            setTimeout(function () {
+                }
 
-                //window.location.href = PackageUrl.url_details.replace("pId", data.packageId);
-                window.history.back();
-                // $('#spinn-loader').hide();
-            }, 500);
-
+            });
 
         });
 
@@ -1063,7 +1074,10 @@ $(document).on('change', '#' +
         //alert(selId);
         LoadDataTableSearch($(this).val(), selId);
 
-    });
+});
+
+
+
 var LoadDataTableSearch = function(data,selectedId) {
 
     var searchstring = data;
@@ -1084,6 +1098,8 @@ var LoadDataTableSearch = function(data,selectedId) {
         responsive: true,
         bLengthChange: false,
         bFilter: false,
+        order: [],
+
         ajax: {
             url: bookingsUrl.bookUrl_getResultSearchPackages,
             data: { searchstr: searchstring, selectedId: seleId},

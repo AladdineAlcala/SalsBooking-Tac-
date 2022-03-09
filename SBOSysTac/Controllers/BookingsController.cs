@@ -45,11 +45,10 @@ namespace SBOSysTac.Controllers
 
 
         [HttpGet]
+        [OutputCache(Duration =60)]
         public ActionResult LoadBookings()
         {
-            var bookings = booking.GetListofBookings().Where(s=> s.serve_status==false && s.iscancelled==false).OrderBy(d => d.startdate);
-
-
+            var bookings = booking.GetListofBookings().OrderBy(d => d.startdate).ToList();
 
             return Json(new {data=bookings}, JsonRequestBehavior.AllowGet);
 

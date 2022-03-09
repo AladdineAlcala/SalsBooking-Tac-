@@ -129,7 +129,7 @@
 
                 $.ajax({
                     type: 'Get',
-                    url: calendarEventsUrl.calUrl_dayEventUrl,
+                    url: calendarEventsUrl.calUrl_dayEventUrl,   //"@Url.Action("GetAllEventsDay", "Events")"
                     contentType: 'application/html;charset=utf8',
                     data: { eventdate: datefiltered },
                     datatype: 'html',

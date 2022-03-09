@@ -70,54 +70,56 @@ namespace SBOSysTac.ViewModel
 
         public List<BookingsViewModel> GetListofBookings()
         {
-           var _entities=new PegasusEntities();
+           var _dbcontext=new PegasusEntities();
+            var app_user_context = new ApplicationUser.ApplicationDbContext();
+            //  _entities.Configuration.ProxyCreationEnabled = false;
 
-         //  _entities.Configuration.ProxyCreationEnabled = false;
-
-            List<Booking> bookings = new List<Booking>();
-            List<BookingsViewModel> bookingdetails=new List<BookingsViewModel>();
+            //List<Booking> bookings = new List<Booking>();
+            List<BookingsViewModel> bookingdetails = new List<BookingsViewModel>();
 
             try
             {
-                var context = new ApplicationUser.ApplicationDbContext();
+                
 
-                //var _user = context.Users.ToList();
+                var bookings = (from c in _dbcontext.Bookings where c.serve_stat==false && c.is_cancelled==false select c).ToList();
+                var user = app_user_context.Users.ToList();
 
-                bookings = (from c in _entities.Bookings select c).ToList();
 
                 bookingdetails = (from b in bookings
-                    let _user = context.Users.ToList().FirstOrDefault(x => x.Id==b.b_createdbyUser)
-                    where _user!= null
-                    join s in _entities.ServiceTypes on b.typeofservice equals s.serviceId 
-                    select new BookingsViewModel
-                    {
-                        trn_Id = b.trn_Id,
-                        c_Id = b.c_Id,
-                        noofperson = b.noofperson,
-                        occasion = b.occasion,
-                        packagename = b.Package.p_descripton,
-                        packageType = b.Package.p_type.Trim(),
-                        amoutperPax =Convert.ToDecimal(b.Package.p_amountPax),
-                        venue = b.venue,
-                        typeofservice = b.typeofservice,
-                        startdate = b.startdate,
-                        enddate = b.enddate,
-                        transdate = b.transdate,
-                        serve_status = b.serve_stat,
-                        serviceType = s.servicetypedetails,
-                        eventcolor = b.eventcolor,
-                        pId = Convert.ToInt32(b.p_id),
-                        fullname = Utilities.getfullname(b.Customer.lastname, b.Customer.firstname, b.Customer.middle),
-                        b_createdbyUser = b.b_createdbyUser,
-                        b_createdbyUserName = _user.UserName,
-                        refernce = b.reference,
-                        apply_extendedAmount = (bool) b.apply_extendedAmount,
-                        b_updatedDate = Convert.ToDateTime(b.b_updatedDate),
-                        iscancelled =Convert.ToBoolean(b.is_cancelled),
-                        booktypecode = !string.Equals(b.booktype, null, StringComparison.Ordinal) ?b.booktype:"",
-                        no_of_lackingMenus = BookMenusViewModel.GetTotalLackingMenus(Convert.ToInt32(b.p_id),b.trn_Id)
+                                let _user = user.Find(x => x.Id==b.b_createdbyUser)
+                                where _user!= null
+                                join s in _dbcontext.ServiceTypes on b.typeofservice equals s.serviceId 
+                                select new BookingsViewModel
+                                {
+                                    trn_Id = b.trn_Id,
+                                    c_Id = b.c_Id,
+                                    noofperson = b.noofperson,
+                                    occasion = b.occasion,
+                                    packagename = b.Package.p_descripton,
+                                    packageType = b.Package.p_type.Trim(),
+                                    amoutperPax =Convert.ToDecimal(b.Package.p_amountPax),
+                                    venue = b.venue,
+                                    typeofservice = b.typeofservice,
+                                    startdate = b.startdate,
+                                    enddate = b.enddate,
+                                    transdate = b.transdate,
+                                    serve_status = b.serve_stat,
+                                    serviceType = s.servicetypedetails,
+                                    eventcolor = b.eventcolor,
+                                    pId = Convert.ToInt32(b.p_id),
+                                    fullname = Utilities.getfullname(b.Customer.lastname, b.Customer.firstname, b.Customer.middle),
+                                    b_createdbyUser = b.b_createdbyUser,
+                                    b_createdbyUserName = _user.UserName,
+                                    refernce = b.reference,
+                                    apply_extendedAmount = (bool) b.apply_extendedAmount,
+                                    b_updatedDate = Convert.ToDateTime(b.b_updatedDate),
+                                    iscancelled =Convert.ToBoolean(b.is_cancelled),
+                                    booktypecode = !string.Equals(b.booktype, null, StringComparison.Ordinal) ?b.booktype:"",
+                                    no_of_lackingMenus = BookMenusViewModel.GetTotalLackingMenus(Convert.ToInt32(b.p_id),b.trn_Id,_dbcontext)
 
-                    }).ToList();
+                                }).ToList();
+
+
             //}).Where(x=>x.serve_status==false).OrderBy(d => d.startdate).ToList();
 
             }
@@ -130,8 +132,11 @@ namespace SBOSysTac.ViewModel
                 throw;
             }
 
+            app_user_context.Dispose();
+            _dbcontext.Dispose();
+            
 
-            return bookingdetails.ToList();
+            return bookingdetails;
 
 
         }
@@ -139,7 +144,7 @@ namespace SBOSysTac.ViewModel
         public BookingsViewModel GetListofBookings(int _transId)
         {
             var _dbcontext = new PegasusEntities();
-            var _usercontext = new ApplicationUser.ApplicationDbContext();
+            var app_user_context = new ApplicationUser.ApplicationDbContext();
 
 
             //  _entities.Configuration.ProxyCreationEnabled = false;
@@ -152,10 +157,10 @@ namespace SBOSysTac.ViewModel
             {
                var booking = (from c in _dbcontext.Bookings where c.trn_Id == _transId select c).ToList();
 
-                //var user = _usercontext.Users.ToList().Find(t => t.Id ==booking.b_createdbyUser);
+                var user = app_user_context.Users.ToList();
 
                 bookingdetails = (from b in booking
-                                  let _user = _usercontext.Users.ToList().FirstOrDefault(x => x.Id == b.b_createdbyUser)
+                                  let _user = user.Find(x => x.Id == b.b_createdbyUser)
                                   where _user != null
                                   join s in _dbcontext.ServiceTypes on b.typeofservice equals s.serviceId
                                   select new BookingsViewModel
@@ -184,7 +189,7 @@ namespace SBOSysTac.ViewModel
                                       b_updatedDate = Convert.ToDateTime(b.b_updatedDate),
                                       iscancelled = Convert.ToBoolean(b.is_cancelled),
                                       booktypecode = !string.Equals(b.booktype, null, StringComparison.Ordinal) ? b.booktype : "",
-                                      no_of_lackingMenus = BookMenusViewModel.GetTotalLackingMenus(Convert.ToInt32(b.p_id), b.trn_Id)
+                                      no_of_lackingMenus = BookMenusViewModel.GetTotalLackingMenus(Convert.ToInt32(b.p_id), b.trn_Id, _dbcontext)
 
                                   }).Single();
 
@@ -201,7 +206,7 @@ namespace SBOSysTac.ViewModel
                 throw;
             }
 
-            _usercontext.Dispose();
+            app_user_context.Dispose();
             _dbcontext.Dispose();
 
             return bookingdetails;

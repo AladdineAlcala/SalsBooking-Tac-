@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SBOSysTac.Models;
 using SBOSysTac.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SBOSysTac.HtmlHelperClass
 {
@@ -15,9 +14,9 @@ namespace SBOSysTac.HtmlHelperClass
         {
             string auditData = "";
 
-            JObject data = (JObject) JsonConvert.DeserializeObject(jsonstring);
+            JObject data = (JObject)JsonConvert.DeserializeObject(jsonstring);
 
-            string action =(string)data["Action"];
+            string action = (string)data["Action"];
 
             var table = data["Table"];
             var primaryKey = data["PrimaryKey"].First;
@@ -27,44 +26,57 @@ namespace SBOSysTac.HtmlHelperClass
             {
                 var changes = data["Changes"].Children();
 
-            
+
 
                 auditData += table + " table updated ;" + " Primary key value: " + primaryKey + "</br>";
 
 
                 foreach (var change in changes)
                 {
-                
 
-                    var columnName = change["ColumnName"].Value<string>();
+
                     //var originalValue =change.Children().Contains("OriginalValue") ? change["NewValue"].Value<string>():change["OriginalValue"].Value<string>();
-                    var newValue = change["NewValue"].Value<string>();
 
-
-                    JToken token = change["OriginalValue"];
-
-                    string originalValue = string.Empty;
-
-                    if (token!=null)
+                    try
                     {
-                         originalValue = change["OriginalValue"].Value<string>();
-                    }
-                  
+                        var columnName = change["ColumnName"].Value<string>();
 
-                    if (originalValue != newValue)
+                        var newValue = change["NewValue"].Value<string>();
+
+                        JToken token = change["OriginalValue"];
+
+                        string originalValue = token != null? change["OriginalValue"].Value<string>() : string.Empty;
+
+                        //if (token != null)
+                        //{
+                        //    originalValue = change["OriginalValue"].Value<string>();
+                        //}
+
+
+                        if (originalValue != newValue)
+                        {
+                            var changecolumn = "( " + columnName + " : " + " Original Value :" + originalValue +
+                                               "; New Value : " + newValue + ")" + "</br>";
+
+                            auditData += changecolumn;
+                        }
+
+                    }
+                    catch (Exception e)
                     {
-                        var changecolumn = "( " + columnName + " : " + " Original Value :" + originalValue +
-                                           "; New Value : " + newValue + ")" + "</br>";
-
-                        auditData += changecolumn;
+                        Console.WriteLine(e);
+                        throw;
                     }
+
+
+                    
 
                 }
 
             }
             else if (action == "Insert")
             {
-              
+
                 var columnValues = data["ColumnValues"];
 
                 var newdata = "New record inserted to " + table + " Primary Key Value: " + primaryKey + "</br>" + " data " + columnValues;
@@ -86,23 +98,23 @@ namespace SBOSysTac.HtmlHelperClass
 
 
 
-        public static IEnumerable<BookingHistoryLogViewModel> BookingLogsHistory(IList<AuditLog> auditlog,int transId)
+        public static IEnumerable<BookingHistoryLogViewModel> BookingLogsHistory(IList<AuditLog> auditlog, int transId)
         {
-            List<BookingHistoryLogViewModel> bookingHistoryLogs=new List<BookingHistoryLogViewModel>();
+            List<BookingHistoryLogViewModel> bookingHistoryLogs = new List<BookingHistoryLogViewModel>();
 
-          
+
 
             foreach (var audit in auditlog)
             {
                 string auditData = "";
 
-                JObject data = (JObject) JsonConvert.DeserializeObject(audit.AuditData);
+                JObject data = (JObject)JsonConvert.DeserializeObject(audit.AuditData);
 
                 var table = data["Table"];
-               
+
 
                 int key = data["PrimaryKey"]["trn_Id"].Value<int>();
-                DateTime datelog = (DateTime) audit.EventDateUTC;
+                DateTime datelog = (DateTime)audit.EventDateUTC;
                 string operation = data["Action"].Value<string>();
                 int x = 1;
 
@@ -150,7 +162,7 @@ namespace SBOSysTac.HtmlHelperClass
 
                         }
 
-                      
+
                         x += 1;
                     }
                 }
@@ -161,7 +173,7 @@ namespace SBOSysTac.HtmlHelperClass
 
                     auditData = "New record inserted to " + table + " Primary Key Value: " + key + " data " + columnValues;
 
-                  
+
                     bookhistory.BookingEventList.Add(new BookingEvents
                     {
                         eventNo = x,
@@ -175,7 +187,7 @@ namespace SBOSysTac.HtmlHelperClass
 
                     var columnValues = data["ColumnValues"];
 
-                    auditData = "Record deleted " + table + " Primary Key Value: " + key  + " data " + columnValues;
+                    auditData = "Record deleted " + table + " Primary Key Value: " + key + " data " + columnValues;
 
                     bookhistory.BookingEventList.Add(new BookingEvents
                     {
@@ -191,8 +203,8 @@ namespace SBOSysTac.HtmlHelperClass
             }
 
 
-            
-            return bookingHistoryLogs.Where(x=>x.TransId== transId).OrderByDescending(t=>t.Logdate);
+
+            return bookingHistoryLogs.Where(x => x.TransId == transId).OrderByDescending(t => t.Logdate);
         }
     }
 }

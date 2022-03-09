@@ -65,14 +65,13 @@ namespace SBOSysTac.Controllers
                 //            ).ToList();
 
 
-                packageIndexDetails =
-                    packagesIndex.GetPackageDetailsView()
-                        .Where(loc =>
-                        {
-                            return loc.Packages.p_amountPax != null 
-                                        && ((loc.PackageAreaDetails.Any(area => area.pAreaDetail.ToLower()
-                                      .Contains(searchString.ToLower()))) || (loc.Packages.p_amountPax.Value.ToString(CultureInfo.InvariantCulture).Contains(searchString)));
-                        }).ToList();
+                packageIndexDetails =packagesIndex.GetPackageDetailsView()
+                                        .Where(loc =>
+                                        {
+                                            return loc.Packages.p_amountPax != null 
+                                                        && ((loc.PackageAreaDetails.Any(area => area.pAreaDetail.ToLower()
+                                                      .Contains(searchString.ToLower()))) || (loc.Packages.p_amountPax.Value.ToString(CultureInfo.InvariantCulture).Contains(searchString)));
+                                        }).ToList();
 
             }
             else
@@ -454,7 +453,7 @@ namespace SBOSysTac.Controllers
             bool success = false;
 
             //==check package if has existing/active bookings
-            bool hasExistingBooking = pb.verifyPackagehasBookings(packageId);
+            bool hasExistingBooking = pb.VerifyPackagehasBookings(packageId);
 
             if (hasExistingBooking==false)
             {
@@ -545,9 +544,12 @@ namespace SBOSysTac.Controllers
          
 
             var packages = new List<AreaPackageViewModel>();
+
             if (selectedId == "packageTypeSelectList")
             {
-                packages = areaPackage.GetPackageByType().Where(x => x.pType == searchstr.Trim()).ToList();
+                packages = areaPackage.GetPackageByType()
+                    .Where(x => x.pType == searchstr.Trim())
+                    .OrderByDescending(order=>order.packageId).ToList();
             }
             else if(selectedId == "areaSelectList")
             {
@@ -555,7 +557,9 @@ namespace SBOSysTac.Controllers
                 {
                     packages = areaPackage.GetAreasByPackages()
                         .Where(x => x.areaId.Equals(Convert.ToInt32(searchstr)))
-                        .OrderBy(x => x.packageId).ToList();
+                         .OrderByDescending(order => order.packageId).ToList();
+                        
+                       
                 }
                 //else
                 //{
@@ -567,12 +571,14 @@ namespace SBOSysTac.Controllers
             }
             else
             {
-                packages = areaPackage.GetPackageByType().Where(x => x.noPaxId == Convert.ToInt32(searchstr)).ToList();
+                packages = areaPackage.GetPackageByType()
+                    .Where(x => x.noPaxId == Convert.ToInt32(searchstr))
+                    .OrderByDescending(order => order.packageId).ToList();
             }
 
             //packagesbytype = areaPackage.GetPackageByType().ToList();
 
-            return Json(new {data= packages },JsonRequestBehavior.AllowGet);
+            return Json(new {data= packages},JsonRequestBehavior.AllowGet);
         }
 
 
@@ -777,7 +783,8 @@ namespace SBOSysTac.Controllers
             
             try
             {
-                bool hasExistingBooking = pb.verifyPackagehasBookings(packageId);
+                bool hasExistingBooking = pb.VerifyPackagehasBookings(packageId);
+
                 if (hasExistingBooking == false)
                 {
                     var delepackagebody =

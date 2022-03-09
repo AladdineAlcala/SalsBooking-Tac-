@@ -33,10 +33,12 @@ namespace SBOSysTac.ViewModel
 
                 var bookings = (from booking in _dbentities.Bookings where booking.is_cancelled==false select booking).OrderBy(x => x.Customer.lastname).ToList();
 
+
                 listAccn = (from b in bookings
                     //let daydue = Convert.ToDateTime(b.transdate).AddDays(30)
                     let eventdatedue = Convert.ToDateTime(b.startdate).AddDays(30)
                     where b.startdate != null && DateTime.Now.Subtract((DateTime) b.startdate).Days >= 0
+
                     select new AccnRecieveSummaryViewModel
                     {
                         cusId = Convert.ToInt32(b.c_Id),
@@ -48,12 +50,13 @@ namespace SBOSysTac.ViewModel
                             ? 0
                             : Convert.ToInt32(DateTime.Now.Subtract(eventdatedue).Days),
 
-                        balance = bookingPayments.Get_TotalAmountBook(b.trn_Id) -
-                                  transdetails.GetTotalPaymentByTrans(b.trn_Id)
+                        balance = bookingPayments.Get_TotalAmountBook(b.trn_Id) - transdetails.GetTotalPaymentByTrans(b.trn_Id)
                         
                              
 
                     }).ToList();
+
+
             }
             catch (Exception e)
             {

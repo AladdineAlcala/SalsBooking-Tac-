@@ -57,7 +57,7 @@ namespace SBOSysTac.Controllers
 
             try
             {
-                IQueryable<Booking> bookinglist = (from b in _dbEntities.Bookings where b.c_Id == cusId select b);
+                var bookinglist = (from b in _dbEntities.Bookings.AsNoTracking() where b.c_Id == cusId select b).ToList();
                     
                     
                 recievablesList = tr.GetAllRecievables(bookinglist).ToList();
